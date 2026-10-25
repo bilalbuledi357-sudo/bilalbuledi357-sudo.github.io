@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tools Hub — Free  Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
+
+<style>
+:root{
+  --bg-0:#04061a; --bg-1:#080d28; --bg-2:#0c1338;
+  --glass-1:rgba(255,255,255,.035);
+  --glass-2:rgba(255,255,255,.055);
+  --glass-3:rgba(255,255,255,.09);
+  --glass-border:rgba(255,255,255,.075);
+  --glass-border-strong:rgba(255,255,255,.16);
+  --purple:#a855f7; --purple-soft:#c4b5fd;
+  --red:#ef4444; --red-soft:#fca5a5;
+  --blue:#6366f1; --blue-soft:#93c5fd;
+  --text:#eef0ff; --text-muted:#a5a7d0; --text-dim:#6b6d9c;
+  --accent-grad:linear-gradient(135deg,#7c3aed 0%,#a855f7 45%,#6366f1 100%);
+  --red-grad:linear-gradient(135deg,#dc2626 0%,#ef4444 50%,#f43f5e 100%);
+  --card-bg:linear-gradient(145deg,rgba(24,20,60,.75),rgba(12,16,44,.65));
+  --card-bg-hover:linear-gradient(145deg,rgba(34,28,82,.85),rgba(18,22,58,.75));
+  --shadow-sm:0 2px 8px rgba(0,0,0,.35);
+  --shadow:0 8px 28px rgba(0,0,0,.4);
+  --shadow-lg:0 24px 56px -12px rgba(0,0,0,.55);
+  --radius:18px; --ease:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.68,-0.55,.27,1.55);
+  --header-h:96px; --header-top:14px; --pill-h:64px;
+}
+[data-theme="light"]{
+  --bg-0:#eef0fa; --bg-1:#e6e9f5; --bg-2:#dfe3f0;
+  --glass-1:rgba(255,255,255,.55); --glass-2:rgba(255,255,255,.7);
+  --glass-3:rgba(255,255,255,.85);
+  --glass-border:rgba(70,60,150,.12);
+  --glass-border-strong:rgba(70,60,150,.24);
+  --text:#141236; --text-muted:#4d4d7a; --text-dim:#8a8aad;
+  --card-bg:linear-gradient(145deg,rgba(255,255,255,.85),rgba(255,255,255,.65));
+  --card-bg-hover:linear-gradient(145deg,rgba(255,255,255,.96),rgba(255,255,255,.8));
+  --shadow-sm:0 2px 8px rgba(50,40,130,.08);
+  --shadow:0 8px 28px rgba(50,40,130,.1);
+  --shadow-lg:0 24px 56px -12px rgba(50,40,130,.2);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg-0);color:var(--text);line-height:1.55;
+  font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  overflow-x:hidden;min-height:100vh;
+  background:radial-gradient(ellipse 90% 60% at 50% 0%,var(--bg-2) 0%,var(--bg-0) 70%);
+  animation:pageIn .5s var(--ease)}
+@keyframes pageIn{from{opacity:0;transform:scale(.99)}to{opacity:1;transform:scale(1)}}
+::selection{background:rgba(168,85,247,.4);color:#fff}
+svg{display:block}
+.bg-decor{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;
+      will-change:transform;animation:floatBlob 28s ease-in-out infinite}
+.blob.p1{width:600px;height:600px;background:radial-gradient(circle,rgba(168,85,247,.5),transparent 70%);top:-200px;left:-180px}
+.blob.p2{width:500px;height:500px;background:radial-gradient(circle,rgba(239,68,68,.4),transparent 70%);top:40%;right:-180px;animation-delay:-14s}
+[data-theme="light"] .blob{opacity:.3}
+@keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-50px) scale(1.1)}}
+
+/* ============ HEADER ============ */
+.site-header{position:sticky;top:var(--header-top);z-index:50;
+  max-width:1180px;margin:var(--header-top) auto 0;padding:0 20px;pointer-events:none;
+  animation:headerDrop .7s var(--ease) .1s both}
+@keyframes headerDrop{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+.header-inner{pointer-events:auto;height:var(--pill-h);
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
+  backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
+  border:1px solid var(--glass-border-strong);border-radius:22px;padding:8px 10px 8px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.14),0 0 0 1px rgba(168,85,247,.08);
+  transition:box-shadow .3s var(--ease)}
+[data-theme="light"] .header-inner{background:linear-gradient(145deg,rgba(255,255,255,.85),rgba(255,255,255,.65))}
+.site-header.scrolled .header-inner{box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(168,85,247,.14)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;
+       font-size:1.02rem;color:var(--text);letter-spacing:-.02em;transition:opacity .3s;flex-shrink:0}
+.brand:hover .logo{transform:rotate(360deg)}
+.logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:var(--accent-grad);color:#fff;
+  box-shadow:0 6px 20px rgba(168,85,247,.5),inset 0 1px 0 rgba(255,255,255,.4);
+  position:relative;overflow:hidden;flex-shrink:0;transition:transform .6s var(--ease)}
+.logo svg{width:22px;height:22px;position:relative;z-index:1}
+.logo::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);
+  animation:shine 6s ease-in-out infinite}
+@keyframes shine{0%,100%{transform:translateX(-130%)}50%{transform:translateX(130%)}}
+.header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.header-back{display:none;align-items:center;gap:8px;height:38px;padding:0 15px;
+  background:var(--glass-2);border:1px solid var(--glass-border-strong);
+  color:var(--text);border-radius:11px;font:inherit;font-size:.85rem;font-weight:700;
+  transition:all .22s var(--ease)}
+.header-back svg{width:15px;height:15px;color:var(--purple-soft)}
+body.tool-open .header-back{display:inline-flex;animation:backSlide .4s var(--spring)}
+@keyframes backSlide{0%{opacity:0;transform:translateX(-20px) scale(.8)}100%{opacity:1;transform:translateX(0) scale(1)}}
+body.tool-open .brand{opacity:.85}
+
+/* Badge pulse */
+.badge{font-size:.74rem;font-weight:600;color:var(--purple-soft);
+  background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.3);
+  padding:6px 12px;border-radius:999px;white-space:nowrap;
+  animation:badgePulse 2.5s ease-in-out infinite}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.35)}50%{box-shadow:0 0 0 6px rgba(168,85,247,0)}}
+
+/* Icon buttons */
+.icon-btn{width:38px;height:38px;border-radius:11px;
+  border:1px solid var(--glass-border);background:var(--glass-1);
+  color:var(--text-muted);display:grid;place-items:center;
+  transition:all .22s var(--ease);position:relative}
+.icon-btn svg{width:18px;height:18px;transition:transform .5s var(--ease)}
+.icon-btn.spin svg{transform:rotate(360deg)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn .sun{display:none}.icon-btn .moon{display:block}
+[data-theme="light"] .icon-btn .sun{display:block;color:#f59e0b}
+[data-theme="light"] .icon-btn .moon{display:none}
+.icon-btn.active{background:rgba(168,85,247,.2);color:var(--purple-soft);border-color:rgba(168,85,247,.4)}
+.dropdown{position:relative}
+.menu-popup{position:absolute;top:calc(100% + 10px);right:0;min-width:230px;
+  background:linear-gradient(145deg,rgba(20,26,74,.98),rgba(12,19,56,.98));
+  border:1px solid var(--glass-border-strong);border-radius:14px;
+  box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.1);
+  padding:6px;opacity:0;transform:translateY(-8px) scale(.9);
+  pointer-events:none;transform-origin:top right;z-index:60;
+  transition:opacity .18s var(--ease),transform .28s var(--spring)}
+[data-theme="light"] .menu-popup{background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(245,247,255,.96))}
+.menu-popup.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.menu-item{width:100%;padding:10px 12px;border-radius:10px;background:none;border:none;
+  font:inherit;color:var(--text);font-size:.88rem;font-weight:600;
+  display:flex;align-items:center;gap:11px;text-align:left;
+  transition:background .16s var(--ease),transform .15s var(--ease)}
+.menu-item svg{width:17px;height:17px;color:var(--purple-soft);flex-shrink:0}
+.menu-item:hover,.menu-item:focus-visible{background:rgba(168,85,247,.14);outline:none;transform:translateX(3px)}
+.menu-item .label{flex:1}
+.menu-item .shortcut{font-family:ui-monospace,monospace;font-size:.7rem;
+  color:var(--text-dim);background:rgba(255,255,255,.06);
+  border:1px solid var(--glass-border);border-radius:5px;padding:2px 6px}
+.menu-item.danger{color:#ff8a8a}
+.menu-item.danger svg{color:#ff8a8a}
+.menu-divider{height:1px;background:var(--glass-border);margin:6px 4px}
+
+/* ============ HERO ============ */
+.hero{max-width:1180px;margin:0 auto;padding:64px 28px 30px;text-align:center}
+.hero h1{margin:0 0 14px;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800;
+  letter-spacing:-.035em;color:var(--text);line-height:1.12;
+  opacity:0;transform:translateY(20px);
+  animation:fadeUp .8s var(--ease) .1s forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.hero h1 span{background:linear-gradient(90deg,#a855f7,#ef4444,#6366f1,#a855f7);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradientShift 8s ease infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.type-line{margin:0 auto 30px;max-width:560px;color:var(--text-muted);
+  font-size:1.02rem;line-height:1.65;min-height:1.65em;
+  opacity:0;transform:translateY(20px);
+  animation:fadeUp .8s var(--ease) .22s forwards}
+#typeText{color:var(--purple-soft);font-weight:600}
+.cursor{display:inline-block;width:2px;height:1.1em;background:var(--purple);
+  margin-left:2px;vertical-align:text-bottom;
+  animation:blink 1s step-end infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.search-wrap{position:relative;max-width:480px;margin:0 auto;
+  opacity:0;transform:translateY(20px);animation:fadeUp .8s var(--ease) .34s forwards}
+.search-wrap svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  color:var(--purple-soft);pointer-events:none;width:18px;height:18px;
+  transition:transform .3s var(--ease)}
+.search-wrap:focus-within svg{transform:translateY(-50%) scale(1.15);color:var(--purple)}
+#search{width:100%;padding:15px 20px 15px 48px;border-radius:16px;
+  border:1.5px solid var(--glass-border-strong);
+  background:var(--card-bg);color:var(--text);
+  font:inherit;font-size:.97rem;outline:none;
+  box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:border-color .2s,box-shadow .2s}
+#search::placeholder{color:var(--text-dim)}
+#search:focus{border-color:rgba(168,85,247,.5);
+  box-shadow:0 0 0 4px rgba(168,85,247,.15),inset 0 1px 0 rgba(255,255,255,.1);
+  animation:searchPulse 1.5s ease-in-out}
+@keyframes searchPulse{
+  0%{box-shadow:0 0 0 4px rgba(168,85,247,.15),inset 0 1px 0 rgba(255,255,255,.1)}
+  50%{box-shadow:0 0 0 10px rgba(168,85,247,.08),inset 0 1px 0 rgba(255,255,255,.1)}
+  100%{box-shadow:0 0 0 4px rgba(168,85,247,.15),inset 0 1px 0 rgba(255,255,255,.1)}}
+
+/* ============ FILTERS ============ */
+.filters{max-width:1180px;margin:0 auto;padding:0 28px 28px;
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  opacity:0;transform:translateY(20px);
+  animation:fadeUp .8s var(--ease) .45s forwards}
+.filter-pill{display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:999px;
+  border:1px solid var(--glass-border);background:var(--glass-1);
+  color:var(--text-muted);font:inherit;font-size:.85rem;font-weight:600;
+  transition:all .25s var(--ease);position:relative}
+.filter-pill svg{width:15px;height:15px;transition:transform .3s var(--ease)}
+.filter-pill:active{transform:scale(.95)}
+.filter-pill.active{background:var(--accent-grad);color:#fff;border-color:transparent;
+  box-shadow:0 6px 20px rgba(168,85,247,.4),inset 0 1px 0 rgba(255,255,255,.3);
+  animation:pillBounce .45s var(--spring)}
+.filter-pill.active svg{transform:rotate(360deg) scale(1.1)}
+@keyframes pillBounce{0%{transform:scale(1)}40%{transform:scale(1.1)}100%{transform:scale(1)}}
+.filter-pill[data-cat="pdf"].active{background:var(--red-grad);
+  box-shadow:0 6px 20px rgba(239,68,68,.4),inset 0 1px 0 rgba(255,255,255,.3)}
+
+main{max-width:1180px;margin:0 auto;padding:0 28px 80px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:18px}
+
+/* ============ CARDS with NEW entrance animation ============ */
+.card{background:var(--card-bg);border:1px solid var(--glass-border);
+  border-radius:var(--radius);padding:22px;text-align:left;
+  color:inherit;font:inherit;
+  box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,.06);
+  display:flex;flex-direction:column;align-items:flex-start;
+  position:relative;
+  opacity:0;transform:translateY(40px) scale(.85) rotateX(-15deg);
+  filter:blur(8px);
+  transition:none;will-change:opacity,transform,filter;
+  perspective:800px}
+.card[data-cat="image"]{--ic:168,85,247}
+.card[data-cat="pdf"]{--ic:239,68,68}
+.card[data-cat="utility"]{--ic:99,102,241}
+.card::before{content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at top right,rgba(var(--ic),.14),transparent 60%);
+  opacity:0;transition:opacity .3s;pointer-events:none}
+.card .icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  background:rgba(var(--ic),.14);color:rgb(var(--ic));
+  border:1px solid rgba(var(--ic),.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 8px rgba(var(--ic),.15);
+  margin-bottom:14px;transition:transform .3s var(--ease),background .3s var(--ease)}
+.card .icon svg{width:22px;height:22px}
+.card h3{margin:0 0 5px;font-size:1rem;font-weight:700;
+         color:var(--text);letter-spacing:-.015em}
+.card p{margin:0;color:var(--text-muted);font-size:.85rem;line-height:1.5}
+.card:active{transform:scale(.97) !important}
+.card.hidden{display:none !important}
+
+/* Card visible - plays entrance */
+.card.visible{
+  animation:cardEnter .85s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes cardEnter{
+  0%{opacity:0;transform:translateY(40px) scale(.85) rotateX(-15deg);filter:blur(8px)}
+  55%{opacity:1;transform:translateY(-6px) scale(1.02) rotateX(4deg);filter:blur(0)}
+  75%{transform:translateY(2px) scale(.99) rotateX(-1deg)}
+  100%{opacity:1;transform:translateY(0) scale(1) rotateX(0);filter:blur(0)}
+}
+
+/* ============ LOAD MORE ============ */
+.load-more-wrap{display:flex;justify-content:center;margin-top:32px;padding:0 4px}
+.load-more-btn{display:inline-flex;align-items:center;gap:11px;
+  padding:14px 26px;background:var(--card-bg);
+  border:1.5px solid var(--glass-border-strong);
+  border-radius:14px;color:var(--text);font:inherit;font-size:.9rem;font-weight:700;
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.1);
+  transition:all .25s var(--ease);position:relative;overflow:hidden}
+.load-more-btn svg{width:18px;height:18px;color:var(--purple-soft);transition:transform .3s var(--ease)}
+.load-more-btn .count{font-size:.78rem;color:var(--purple-soft);font-weight:700;
+  padding:3px 10px;background:rgba(168,85,247,.14);
+  border:1px solid rgba(168,85,247,.28);border-radius:999px}
+
+/* ============ TOOL VIEW ============ */
+.tool-hint{display:flex;align-items:flex-start;gap:11px;
+  padding:13px 16px;background:rgba(99,102,241,.08);
+  border:1px solid rgba(99,102,241,.22);border-radius:12px;
+  font-size:.87rem;line-height:1.55;color:var(--text-muted);margin-bottom:20px}
+.tool-hint svg{width:17px;height:17px;color:var(--blue-soft);flex-shrink:0;margin-top:1px}
+.tool-view{max-width:840px;margin:0 auto;background:var(--card-bg);
+  border:1px solid var(--glass-border-strong);border-radius:22px;
+  padding:0 30px 30px;
+  box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.1);
+  position:relative}
+.tool-view.hidden{display:none !important}
+.tool-view.opening{animation:toolInBlur .7s var(--ease) forwards;will-change:opacity,transform,filter}
+@keyframes toolInBlur{
+  0%{opacity:0;transform:translateY(30px) scale(.94);filter:blur(20px)}
+  60%{opacity:1;filter:blur(4px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.tool-view.closing{animation:toolOutBlur .42s var(--ease) forwards;pointer-events:none}
+@keyframes toolOutBlur{
+  0%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  100%{opacity:0;transform:translateY(16px) scale(.96);filter:blur(16px)}}
+.tool-view.opening .tool-hint{animation:hintSlide .55s var(--ease) .15s both}
+.tool-view.opening #toolBody > div:not(.tool-hint){animation:contentBlurIn .55s var(--ease) .22s both}
+@keyframes hintSlide{0%{opacity:0;transform:translateX(-24px);filter:blur(4px)}100%{opacity:1;transform:translateX(0);filter:blur(0)}}
+@keyframes contentBlurIn{0%{opacity:0;transform:translateY(12px);filter:blur(6px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+
+.tool-head{position:sticky;top:var(--header-h);z-index:6;margin:0 -30px;
+  padding:18px 30px 16px;background:var(--bg-0);
+  border-bottom:1px solid transparent;border-radius:22px 22px 0 0;
+  display:flex;flex-direction:column;gap:14px;
+  transition:padding .3s var(--ease),border-color .3s,box-shadow .3s,border-radius .3s}
+[data-theme="light"] .tool-head{background:var(--bg-0)}
+.tool-head.stuck{border-bottom-color:var(--glass-border);padding:14px 30px 12px;
+  box-shadow:0 8px 24px -12px rgba(0,0,0,.35);border-radius:0}
+.back{display:inline-flex;align-items:center;gap:9px;align-self:flex-start;
+  background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);
+  color:var(--purple-soft);border-radius:14px;padding:10px 18px;
+  font:inherit;font-size:.87rem;font-weight:700;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  transition:all .22s var(--ease);position:relative;overflow:hidden}
+.back svg{width:16px;height:16px;transition:transform .25s var(--ease)}
+.back:active{background:rgba(168,85,247,.2);transform:scale(.97)}
+.back:active svg{transform:translateX(-3px)}
+h2{margin:0;font-size:1.28rem;font-weight:800;letter-spacing:-.02em;
+  color:var(--text);display:flex;align-items:center}
+.title-icon{display:inline-flex;width:42px;height:42px;border-radius:12px;
+  background:rgba(168,85,247,.14);color:var(--purple-soft);
+  align-items:center;justify-content:center;margin-right:14px;
+  border:1px solid rgba(168,85,247,.3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  animation:iconPop .6s var(--spring)}
+@keyframes iconPop{0%{opacity:0;transform:scale(.3) rotate(-180deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+.title-icon svg{width:21px;height:21px}
+#toolBody{padding-top:20px}
+
+/* ============ FORM CONTROLS ============ */
+textarea,input[type=text],input[type=number],input[type=datetime-local],select{
+  width:100%;padding:12px 15px;border-radius:11px;
+  border:1.5px solid var(--glass-border);
+  background:rgba(0,0,0,.18);color:var(--text);
+  font:inherit;font-size:.94rem;outline:none;
+  transition:border-color .15s,box-shadow .15s,transform .15s}
+[data-theme="light"] textarea,[data-theme="light"] input[type=text],
+[data-theme="light"] input[type=number],[data-theme="light"] input[type=datetime-local],
+[data-theme="light"] select{background:rgba(255,255,255,.7)}
+textarea{resize:vertical}
+textarea:focus,input[type=text]:focus,input[type=number]:focus,
+input[type=datetime-local]:focus,select:focus{
+  border-color:rgba(168,85,247,.5);box-shadow:0 0 0 3px rgba(168,85,247,.15);
+  transform:translateY(-1px)}
+select{appearance:none;-webkit-appearance:none;padding-right:40px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23c4b5fd' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+[data-theme="light"] select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")}
+input[type=checkbox],input[type=range]{accent-color:var(--purple)}
+input[type=color]{border:1px solid var(--glass-border);background:none;
+  padding:0;border-radius:12px;cursor:pointer;transition:transform .2s var(--ease)}
+input[type=color]:hover{transform:scale(1.05)}
+label{display:block;font-size:.8rem;font-weight:600;
+  color:var(--text-muted);margin-bottom:7px;letter-spacing:.01em}
+.field{margin-bottom:18px}
+
+/* ============ BUTTONS with ripple + shine ============ */
+.btn{background:var(--accent-grad);color:#fff;border:none;
+  padding:11px 20px;border-radius:11px;font:inherit;
+  font-size:.89rem;font-weight:700;
+  box-shadow:0 4px 16px rgba(168,85,247,.4),inset 0 1px 0 rgba(255,255,255,.25);
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  position:relative;overflow:hidden;
+  transition:transform .18s var(--ease),box-shadow .22s var(--ease),opacity .18s}
+.btn svg{width:15px;height:15px;position:relative;z-index:1}
+.btn > *{position:relative;z-index:1}
+.btn::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);
+  transform:translateX(-130%);transition:transform .7s var(--ease)}
+.btn::before{content:'';position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.55);
+  width:0;height:0;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  transition:width .5s,height .5s,opacity .5s;opacity:0;pointer-events:none;z-index:0}
+.btn:active:not(:disabled)::before{width:400px;height:400px;opacity:.4;transition:width .2s,height .2s,opacity 0s}
+.btn.ghost{background:var(--glass-2);color:var(--text);
+  border:1px solid var(--glass-border-strong);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.btn.ghost::before{background:rgba(168,85,247,.4)}
+.btn.red{background:var(--red-grad);
+  box-shadow:0 4px 16px rgba(239,68,68,.4),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn:disabled{opacity:.45}
+.btn:active:not(:disabled){transform:translateY(1px) scale(.98)}
+.btn.loading{pointer-events:none;opacity:.75}
+.btn.loading::after{content:'';inset:auto;position:absolute;width:16px;height:16px;
+  right:12px;top:50%;transform:translateY(-50%);border:2px solid rgba(255,255,255,.35);
+  border-top-color:#fff;border-radius:50%;background:none;
+  animation:btnSpin .7s linear infinite}
+@keyframes btnSpin{to{transform:translateY(-50%) rotate(360deg)}}
+
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.row > label{display:inline-flex;align-items:center;gap:7px;margin:0;
+  font-size:.86rem;font-weight:600;color:var(--text)}
+
+/* Dropzone with pulse on dragover */
+.drop-zone{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 22px;border:2px dashed rgba(168,85,247,.3);border-radius:16px;
+  background:rgba(168,85,247,.06);text-align:center;gap:11px;
+  transition:all .25s var(--ease);position:relative}
+.drop-zone svg{width:38px;height:38px;color:var(--purple-soft);
+               transition:transform .3s var(--ease)}
+.drop-zone strong{color:var(--text);font-size:.96rem;font-weight:700}
+.drop-zone small{color:var(--text-muted);font-size:.8rem}
+.drop-zone.dragover,.drop-zone:active{border-color:rgba(168,85,247,.6);
+  background:rgba(168,85,247,.14);animation:dzPulse 1s ease-in-out infinite}
+@keyframes dzPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.4)}50%{box-shadow:0 0 0 12px rgba(168,85,247,0)}}
+
+/* Output blocks */
+.out{background:rgba(0,0,0,.22);border:1px solid var(--glass-border);
+  border-radius:13px;padding:15px;margin-top:16px;min-height:52px;
+  word-break:break-word;white-space:pre-wrap;color:var(--text);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87rem;
+  transition:border-color .25s,background .25s}
+[data-theme="light"] .out{background:rgba(255,255,255,.6)}
+.out.success{background:rgba(16,185,129,.14);border-color:rgba(16,185,129,.4);color:#6ee7b7;
+  animation:successPop .55s var(--spring)}
+@keyframes successPop{0%{transform:scale(.9);opacity:.6}55%{transform:scale(1.02);opacity:1}100%{transform:scale(1);opacity:1}}
+.out.error{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.4);color:#fca5a5;
+  animation:errorShake .4s ease}
+@keyframes errorShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+.preview-wrap{margin-top:18px;border:1px solid var(--glass-border);
+  border-radius:14px;overflow:hidden;background:rgba(0,0,0,.15)}
+[data-theme="light"] .preview-wrap{background:rgba(255,255,255,.5)}
+.preview-wrap img,.preview-wrap canvas{display:block;max-width:100%;height:auto;margin:0 auto;
+  animation:previewIn .5s var(--ease)}
+@keyframes previewIn{from{opacity:0;transform:scale(.92);filter:blur(4px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+.thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+  gap:10px;margin-top:14px}
+.thumb{border:1px solid var(--glass-border);border-radius:10px;overflow:hidden;
+  background:var(--glass-2);position:relative;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+  animation:thumbIn .45s var(--ease) both}
+@keyframes thumbIn{from{opacity:0;transform:scale(.7) rotate(-5deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.thumb img{width:100%;height:auto;display:block}
+.thumb .num{position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(20,10,40,.9),transparent);
+  color:#fff;font-size:.7rem;font-weight:600;
+  padding:8px 6px 4px;text-align:center}
+.empty{color:var(--text-muted);text-align:center;padding:52px 0;font-weight:500}
+.hidden{display:none !important}
+.file-info{font-size:.82rem;color:var(--text-muted);margin-top:10px;font-weight:500}
+
+/* ============ TOASTS with bounce ============ */
+#toasts{position:fixed;top:calc(var(--header-h) + 8px);right:20px;z-index:9999;
+  display:flex;flex-direction:column;gap:10px;pointer-events:none;
+  max-width:calc(100vw - 40px)}
+.toast{display:flex;align-items:center;gap:11px;
+  padding:13px 18px;
+  background:linear-gradient(145deg,rgba(30,26,70,.97),rgba(15,12,40,.97));
+  border:1px solid var(--glass-border-strong);border-radius:14px;
+  box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.1);
+  transform:translateX(140%);opacity:0;
+  transition:transform .35s var(--ease),opacity .25s;
+  font-size:.88rem;font-weight:600;color:var(--text);pointer-events:auto}
+[data-theme="light"] .toast{background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(245,247,255,.96))}
+.toast.show{animation:toastBounce .5s var(--spring) forwards;opacity:1}
+@keyframes toastBounce{0%{transform:translateX(140%);opacity:0}
+  60%{transform:translateX(-8%);opacity:1}
+  80%{transform:translateX(4%)}
+  100%{transform:translateX(0);opacity:1}}
+.toast.success{border-left:3px solid #10b981}
+.toast.error{border-left:3px solid #ef4444}
+.toast-icon{width:22px;height:22px;border-radius:50%;
+  display:grid;place-items:center;font-weight:800;font-size:.72rem;flex-shrink:0}
+.toast.success .toast-icon{background:rgba(16,185,129,.2);color:#34d399}
+.toast.error .toast-icon{background:rgba(239,68,68,.2);color:#f87171}
+
+/* Scroll top with pulse */
+.scroll-top{position:fixed;bottom:26px;right:26px;z-index:40;
+  width:48px;height:48px;border-radius:14px;
+  background:var(--card-bg);border:1px solid var(--glass-border-strong);
+  color:var(--purple-soft);display:grid;place-items:center;
+  box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.15);
+  opacity:0;pointer-events:none;transform:translateY(20px) scale(.9);
+  transition:opacity .3s var(--ease),transform .35s var(--ease)}
+.scroll-top svg{width:20px;height:20px}
+.scroll-top.show{opacity:1;pointer-events:auto;transform:translateY(0) scale(1);
+  animation:scrollPulse 2.5s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{box-shadow:var(--shadow-lg),0 0 0 0 rgba(168,85,247,.4)}
+  50%{box-shadow:var(--shadow-lg),0 0 0 10px rgba(168,85,247,0)}}
+.scroll-top:active{transform:translateY(1px) scale(.92)}
+
+/* ============ MODALS with spring bounce ============ */
+.modal-backdrop{position:fixed;inset:0;z-index:200;
+  background:rgba(4,6,26,.75);
+  display:grid;place-items:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .25s var(--ease)}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal{position:relative;
+  background:linear-gradient(145deg,rgba(30,26,70,.98),rgba(15,12,40,.98));
+  border:1px solid var(--glass-border-strong);border-radius:20px;
+  padding:26px;max-width:480px;width:100%;max-height:calc(100vh - 40px);overflow-y:auto;
+  box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.1);
+  transform:translateY(20px) scale(.9)}
+[data-theme="light"] .modal{background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(245,247,255,.97))}
+.modal-backdrop.open .modal{animation:modalBounce .5s var(--spring) forwards}
+@keyframes modalBounce{
+  0%{transform:translateY(40px) scale(.9);opacity:0}
+  60%{transform:translateY(-6px) scale(1.02);opacity:1}
+  100%{transform:translateY(0) scale(1);opacity:1}}
+.modal h3{margin:0 0 16px;font-size:1.15rem;font-weight:800;color:var(--text);
+  display:flex;align-items:center;gap:10px}
+.modal h3 svg{width:22px;height:22px;color:var(--purple-soft);
+  animation:iconPop .6s var(--spring)}
+.modal p{margin:0 0 14px;font-size:.9rem;line-height:1.65;color:var(--text-muted)}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;
+  border-radius:9px;border:1px solid var(--glass-border);background:var(--glass-2);
+  color:var(--text-muted);display:grid;place-items:center;transition:all .2s}
+.modal-close svg{width:16px;height:16px;transition:transform .3s var(--ease)}
+.modal-close:hover svg{transform:rotate(90deg)}
+.shortcut-list{display:grid;gap:8px;margin:14px 0 4px}
+.shortcut-item{display:flex;align-items:center;justify-content:space-between;
+  padding:11px 14px;background:var(--glass-2);border:1px solid var(--glass-border);
+  border-radius:10px;font-size:.87rem;font-weight:600;color:var(--text);
+  transition:transform .2s var(--ease),background .2s}
+.shortcut-item:hover{transform:translateX(4px);background:var(--glass-3)}
+.kbd{font-family:ui-monospace,monospace;font-size:.78rem;padding:4px 9px;
+  background:var(--glass-3);border:1px solid var(--glass-border-strong);
+  border-radius:6px;box-shadow:0 1.5px 0 var(--glass-border-strong);
+  color:var(--text);font-weight:600}
+.contact-email-box{display:flex;align-items:center;gap:10px;
+  padding:14px 16px;margin:14px 0;
+  background:rgba(168,85,247,.12);
+  border:1.5px solid rgba(168,85,247,.35);border-radius:12px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.92rem;font-weight:700;color:var(--text);
+  word-break:break-all;
+  animation:emailPulse 3s ease-in-out infinite}
+@keyframes emailPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.3)}50%{box-shadow:0 0 0 6px rgba(168,85,247,0)}}
+.contact-email-box svg{width:20px;height:20px;color:var(--purple-soft);flex-shrink:0}
+.contact-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.contact-actions .btn{flex:1;min-width:140px}
+.about-badges{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.about-badge{padding:12px 14px;background:var(--glass-2);
+  border:1px solid var(--glass-border);border-radius:10px;text-align:center;
+  transition:transform .25s var(--ease),background .25s}
+.about-badge:hover{transform:translateY(-3px) scale(1.03);background:var(--glass-3)}
+.about-badge strong{display:block;font-size:1.25rem;color:var(--purple-soft);
+  font-weight:800;line-height:1.2}
+.about-badge small{font-size:.72rem;color:var(--text-muted);font-weight:600}
+footer{text-align:center;color:var(--text-muted);font-size:.83rem;
+  padding:0 24px 48px;font-weight:500}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01s !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01s !important;
+  }
+}
+
+/* Hover effects (desktop) */
+@media (hover:hover) and (pointer:fine){
+  .card{cursor:pointer}
+  .card.visible:hover{
+    transform:translateY(-8px) scale(1.02);
+    background:var(--card-bg-hover);
+    box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,.14),
+               0 0 0 1px rgba(var(--ic),.3),0 12px 40px rgba(var(--ic),.2);
+    animation:none;
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease),
+               background .25s var(--ease)}
+  .card:hover::before{opacity:1}
+  .card:hover .icon{background:rgba(var(--ic),.28);
+    box-shadow:0 8px 24px rgba(var(--ic),.5),inset 0 1px 0 rgba(255,255,255,.2);
+    animation:iconWiggle .6s var(--ease)}
+  @keyframes iconWiggle{
+    0%,100%{transform:rotate(0) scale(1.08)}
+    25%{transform:rotate(-12deg) scale(1.12)}
+    75%{transform:rotate(12deg) scale(1.12)}}
+  .btn:not(:disabled){cursor:pointer}
+  .btn:not(:disabled):hover{transform:translateY(-2px);
+    box-shadow:0 10px 28px rgba(168,85,247,.5),inset 0 1px 0 rgba(255,255,255,.3)}
+  .btn.red:not(:disabled):hover{box-shadow:0 10px 28px rgba(239,68,68,.5),inset 0 1px 0 rgba(255,255,255,.3)}
+  .btn:hover::after{transform:translateX(130%)}
+  .btn.ghost:not(:disabled):hover{background:var(--glass-3);transform:translateY(-1px)}
+  .back{cursor:pointer}
+  .back:hover{background:rgba(168,85,247,.22);box-shadow:0 4px 16px rgba(168,85,247,.3)}
+  .back:hover svg{transform:translateX(-3px)}
+  .drop-zone{cursor:pointer}
+  .drop-zone:hover{border-color:rgba(168,85,247,.5);background:rgba(168,85,247,.12)}
+  .drop-zone:hover svg{transform:translateY(-3px) scale(1.05)}
+  .filter-pill:not(.active):hover{background:var(--glass-2);
+    border-color:var(--glass-border-strong);color:var(--text);transform:translateY(-2px)}
+  .filter-pill:not(.active):hover svg{transform:scale(1.15)}
+  .filter-pill:not(.active){cursor:pointer}
+  .thumb:hover{transform:translateY(-3px) scale(1.05);box-shadow:var(--shadow)}
+  input[type=color],.row > label{cursor:pointer}
+  .icon-btn,.header-back,.scroll-top,.modal-close,.load-more-btn{cursor:pointer}
+  .icon-btn:hover{background:var(--glass-3);color:var(--purple-soft);border-color:rgba(168,85,247,.3)}
+  .icon-btn:hover svg{transform:rotate(15deg)}
+  .scroll-top:hover{background:var(--card-bg-hover);color:var(--text)}
+  .modal-close:hover{background:var(--glass-3);color:var(--text)}
+  .load-more-btn:hover{background:var(--card-bg-hover);border-color:rgba(168,85,247,.4);
+    transform:translateY(-2px);box-shadow:0 10px 28px rgba(168,85,247,.25),inset 0 1px 0 rgba(255,255,255,.12)}
+  .load-more-btn:hover svg{transform:translateY(2px)}
+  .brand{cursor:pointer}
+}
+
+.card:focus-visible,.btn:focus-visible,.back:focus-visible,
+.filter-pill:focus-visible,.icon-btn:focus-visible,
+.header-back:focus-visible,.scroll-top:focus-visible,
+.modal-close:focus-visible,.menu-item:focus-visible,
+.load-more-btn:focus-visible{outline:2px solid rgba(168,85,247,.7);outline-offset:3px}
+
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(168,85,247,.3);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(168,85,247,.5)}
+
+@media (max-width:640px){
+  :root{--header-top:10px;--pill-h:58px;--header-h:84px}
+  .site-header{padding:0 12px}
+  .header-inner{padding:6px 8px 6px 12px;border-radius:18px;gap:8px}
+  .brand{font-size:.95rem;gap:8px}
+  .logo{width:34px;height:34px;border-radius:10px}
+  .logo svg{width:19px;height:19px}
+  .hero{padding:40px 18px 20px}
+  .type-line{font-size:.94rem;margin-bottom:22px}
+  .filters{padding:0 18px 22px;gap:6px}
+  .filter-pill{padding:8px 13px;font-size:.78rem}
+  .filter-pill svg{width:13px;height:13px}
+  main{padding:0 18px 60px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card{padding:15px;border-radius:14px}
+  .card .icon{width:40px;height:40px;border-radius:11px;margin-bottom:10px}
+  .card .icon svg{width:18px;height:18px}
+  .card h3{font-size:.88rem;line-height:1.3}
+  .card p{font-size:.74rem;display:-webkit-box;-webkit-line-clamp:2;
+          -webkit-box-orient:vertical;overflow:hidden}
+  .badge{display:none}
+  .icon-btn{width:34px;height:34px;border-radius:10px}
+  .icon-btn svg{width:16px;height:16px}
+  .header-back{height:34px;padding:0 11px;font-size:.78rem;border-radius:10px}
+  .header-back span{display:none}
+  .header-back svg{width:16px;height:16px}
+  .tool-view{padding:0 18px 22px;border-radius:18px}
+  .tool-head{margin:0 -18px;padding:14px 18px 12px;border-radius:18px 18px 0 0}
+  .tool-head.stuck{border-radius:0;padding:12px 18px 10px}
+  .back{padding:9px 14px;font-size:.82rem;border-radius:12px}
+  .back span{display:none}
+  .back svg{width:18px;height:18px}
+  h2{font-size:1.1rem}
+  .title-icon{width:34px;height:34px;margin-right:10px}
+  .title-icon svg{width:18px;height:18px}
+  .btn{padding:11px 16px;flex:1}
+  .drop-zone{padding:30px 16px}
+  .drop-zone svg{width:32px;height:32px}
+  #toasts{top:calc(var(--header-h) + 4px);right:12px;left:12px;max-width:none}
+  .toast{width:100%}
+  .scroll-top{bottom:18px;right:18px;width:44px;height:44px;border-radius:12px}
+  .menu-popup{right:-4px;min-width:210px}
+  .modal{padding:22px;border-radius:18px}
+  .tool-hint{padding:11px 13px;font-size:.82rem;gap:9px}
+  .load-more-btn{padding:12px 20px;font-size:.85rem;gap:9px}
+  .about-badges{grid-template-columns:1fr}
+}
+@media (max-width:380px){.card p{display:none}}
+</style>
+</head>
+<body>
+
+<div class="bg-decor">
+  <div class="blob p1"></div>
+  <div class="blob p2"></div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <div class="brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <span class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+      </span>
+      Tools Hub
+    </div>
+    <div class="header-actions">
+      <button class="header-back" id="headerBack" aria-label="Back to all tools">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        <span>Back</span>
+      </button>
+      <span class="badge" id="toolCount"></span>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+      <div class="dropdown" id="optionsDropdown">
+        <button class="icon-btn" id="optionsBtn" aria-label="Options" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+        </button>
+        <div class="menu-popup" id="optionsMenu" role="menu">
+          <button class="menu-item" role="menuitem" data-action="theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <span class="label">Toggle theme</span><span class="shortcut">T</span>
+          </button>
+          <button class="menu-item" role="menuitem" data-action="shortcuts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+            <span class="label">Shortcuts</span><span class="shortcut">?</span>
+          </button>
+          <div class="menu-divider"></div>
+          <button class="menu-item" role="menuitem" data-action="about">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span class="label">About</span>
+          </button>
+          <button class="menu-item" role="menuitem" data-action="contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span class="label">Contact</span>
+          </button>
+          <div class="menu-divider"></div>
+          <button class="menu-item danger" role="menuitem" data-action="reset">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            <span class="label">Reset preferences</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <h1>Every tool you need, <span>in one glass</span></h1>
+  <p class="type-line"><span id="typeText"></span><span class="cursor"></span></p>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search" type="search" placeholder="Search tools…" autocomplete="off">
+  </div>
+</section>
+
+<div class="filters" id="filters">
+  <button class="filter-pill active" data-cat="all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    All
+  </button>
+  <button class="filter-pill" data-cat="image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+    Images
+  </button>
+  <button class="filter-pill" data-cat="pdf">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+    PDF
+  </button>
+  <button class="filter-pill" data-cat="utility">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+    Utilities
+  </button>
+</div>
+
+<main>
+  <section id="grid" class="grid"></section>
+  <div id="loadMoreWrap" class="load-more-wrap hidden">
+    <button class="load-more-btn" id="loadMoreBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+      <span>Load more tools</span>
+      <span class="count" id="loadMoreCount">+12</span>
+    </button>
+  </div>
+  <section id="toolView" class="tool-view hidden">
+    <div class="tool-head" id="toolHead">
+      <button class="back" id="backBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        <span>Back to all tools</span>
+      </button>
+      <h2 id="toolTitle"></h2>
+    </div>
+    <div id="toolBody"></div>
+  </section>
+</main>
+
+<footer>Tools Hub · 100% client-side · Your files never leave your device</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</button>
+
+<div class="modal-backdrop" id="shortcutsModal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close-modal aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Keyboard shortcuts</h3>
+    <div class="shortcut-list">
+      <div class="shortcut-item"><span>Focus search</span><span class="kbd">/</span></div>
+      <div class="shortcut-item"><span>Close / go back</span><span class="kbd">Esc</span></div>
+      <div class="shortcut-item"><span>Toggle theme</span><span class="kbd">T</span></div>
+      <div class="shortcut-item"><span>Show shortcuts</span><span class="kbd">?</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="aboutModal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close-modal aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>About Tools Hub</h3>
+    <p><strong>Fast, private tools that run entirely in your browser.</strong> No accounts, no uploads, no tracking.</p>
+    <div class="about-badges">
+      <div class="about-badge"><strong id="aboutToolCount">41</strong><small>Tools</small></div>
+      <div class="about-badge"><strong>0</strong><small>Uploads</small></div>
+      <div class="about-badge"><strong>3</strong><small>Categories</small></div>
+      <div class="about-badge"><strong>100%</strong><small>Local</small></div>
+    </div>
+    <p style="margin-top:18px"><strong>Questions or bug reports?</strong></p>
+    <div class="contact-email-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      toolhubsupport12@gmail.com
+    </div>
+    <div class="contact-actions">
+      <a href="mailto:toolhubsupport12@gmail.com" class="btn" style="text-decoration:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Send email
+      </a>
+      <button class="btn ghost" id="aboutCopyEmail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy email
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="contactModal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close-modal aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Contact Us</h3>
+    <p>Have a question, found a bug, or want to request a new tool? We'd love to hear from you.</p>
+    <p style="margin-top:6px;color:var(--text)"><strong>Email us at:</strong></p>
+    <div class="contact-email-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      toolhubsupport12@gmail.com
+    </div>
+    <div class="contact-actions">
+      <a href="mailto:toolhubsupport12@gmail.com" class="btn" style="text-decoration:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Send email
+      </a>
+      <button class="btn ghost" id="contactCopyEmail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy email
+      </button>
+    </div>
+    <p style="margin-top:20px;font-size:.82rem">We usually reply within 1–2 business days.</p>
+  </div>
+</div>
+
+<script>
+/* ============ ICONS ============ */
+const SVG=(p,w=1.8)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ICONS={
+  resize:SVG('<path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/>'),
+  compress:SVG('<path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="M14 10l7-7"/><path d="M3 21l7-7"/>'),
+  convert:SVG('<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>'),
+  rotate:SVG('<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/>'),
+  filters:SVG('<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>'),
+  watermark:SVG('<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>'),
+  favicon:SVG('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'),
+  imginfo:SVG('<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'),
+  b64img:SVG('<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>'),
+  picker:SVG('<path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"/>'),
+  crop:SVG('<path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/>'),
+  border:SVG('<rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/>'),
+  pixelate:SVG('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
+  sketch:SVG('<path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>'),
+  circle:SVG('<circle cx="12" cy="12" r="10"/>'),
+  thumbs:SVG('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>'),
+  img2pdf:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'),
+  mergepdf:SVG('<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>'),
+  splitpdf:SVG('<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>'),
+  rotpdf:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M9.5 15.5a2.5 2.5 0 1 0 2.5-2.5"/>'),
+  pdf2img:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.09-1.09a2 2 0 0 0-2.82 0L10 22"/>'),
+  pdfnum:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/>'),
+  pdfwm:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M8 17l8-6"/>'),
+  pdfinfo:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="14" r="1"/><path d="M12 15.5v1.5"/>'),
+  qrgen:SVG('<rect x="3" y="3" width="5" height="5" rx="1"/><rect x="16" y="3" width="5" height="5" rx="1"/><rect x="3" y="16" width="5" height="5" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>'),
+  qrscan:SVG('<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/>'),
+  caseconv:SVG('<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>'),
+  password:SVG('<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),
+  hashgen:SVG('<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>'),
+  colorconv:SVG('<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>'),
+  words:SVG('<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>'),
+  reverse:SVG('<path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/>'),
+  urlcodec:SVG('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
+  b64text:SVG('<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>'),
+  diff:SVG('<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/>'),
+  lorem:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>'),
+  rng:SVG('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/><circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/>'),
+  dice:SVG('<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="8" r="1.2" fill="currentColor"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>'),
+  stopwatch:SVG('<circle cx="12" cy="14" r="8"/><path d="M12 10v4l2 2"/><path d="M9 2h6"/>'),
+  bmi:SVG('<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>'),
+  tip:SVG('<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><circle cx="8" cy="11" r=".8" fill="currentColor"/><circle cx="12" cy="11" r=".8" fill="currentColor"/><circle cx="16" cy="11" r=".8" fill="currentColor"/><circle cx="8" cy="15" r=".8" fill="currentColor"/><circle cx="12" cy="15" r=".8" fill="currentColor"/><circle cx="16" cy="15" r=".8" fill="currentColor"/><circle cx="8" cy="19" r=".8" fill="currentColor"/><circle cx="12" cy="19" r=".8" fill="currentColor"/>'),
+  upload:SVG('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>'),
+  download:SVG('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>'),
+};
+
+/* ============ HELPERS ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const debounce=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
+const randInt=max=>{const b=new Uint32Array(1);crypto.getRandomValues(b);return b[0]%max;};
+const formatBytes=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB';
+function downloadBlob(blob,filename){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
+const readFile=file=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(file);});
+function loadImage(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file);const img=new Image();img.onload=()=>{URL.revokeObjectURL(url);res(img);};img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('Could not load image.'));};img.src=url;});}
+function showToast(msg,type='success'){
+  let c=document.getElementById('toasts');
+  if(!c){c=document.createElement('div');c.id='toasts';document.body.appendChild(c);}
+  const t=document.createElement('div');t.className=`toast ${type}`;
+  t.innerHTML=`<span class="toast-icon">${type==='success'?'✓':'!'}</span><span>${msg}</span>`;
+  c.appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},2600);
+}
+async function copyText(text,btn){
+  try{await navigator.clipboard.writeText(text);
+    if(btn){const old=btn.textContent;btn.textContent='✓ Copied';setTimeout(()=>btn.textContent=old,1200);}
+    showToast('Copied to clipboard');
+  }catch{showToast('Copy failed','error');}
+}
+const dropZoneHTML=(id,accept,multiple,title,hint)=>`
+  <label class="drop-zone" for="${id}">
+    ${ICONS.upload}<strong>${title}</strong><small>${hint} · click or drag & drop</small>
+    <input type="file" id="${id}" accept="${accept}" ${multiple?'multiple':''} hidden>
+  </label>`;
+function wireDropZone(input,onFiles){
+  const dz=input.closest('.drop-zone');
+  input.addEventListener('change',()=>{const f=[...input.files];if(f.length)onFiles(f);});
+  ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('dragover');}));
+  dz.addEventListener('drop',e=>{const f=[...e.dataTransfer.files];if(f.length)onFiles(f);});
+}
+
+/* ============ TOOL REGISTRY ============ */
+const tools=[
+  {id:'resize',cat:'image',icon:'resize',name:'Image Resizer',desc:'Resize images to any dimension',hint:'Enter new dimensions. Lock aspect ratio to avoid distortion. Preview updates live.',render:renderResize},
+  {id:'compress',cat:'image',icon:'compress',name:'Image Compressor',desc:'Reduce image size with quality control',hint:'Lower quality = smaller file. JPEG/WebP only. Live preview before download.',render:renderCompress},
+  {id:'convert',cat:'image',icon:'convert',name:'Image Converter',desc:'Convert PNG, JPG & WebP',hint:'PNG = lossless, JPEG = small photos, WebP = modern web format.',render:renderConvert},
+  {id:'rotate',cat:'image',icon:'rotate',name:'Image Rotator',desc:'Rotate or flip images',hint:'Click rotate buttons to accumulate. Flips toggle on/off each click.',render:renderRotate},
+  {id:'filters',cat:'image',icon:'filters',name:'Image Filters',desc:'Brightness, contrast, blur, sepia & more',hint:'Adjust sliders — live preview. Reset clears all filters back to defaults.',render:renderFilters},
+  {id:'watermark',cat:'image',icon:'watermark',name:'Image Watermark',desc:'Add text watermarks',hint:'Type watermark text, pick position, size, opacity and color.',render:renderWatermark},
+  {id:'favicon',cat:'image',icon:'favicon',name:'Favicon Generator',desc:'Generate PNGs at all sizes',hint:'Upload a square image (512×512 ideal). Click any size to download individually.',render:renderFavicon},
+  {id:'imginfo',cat:'image',icon:'imginfo',name:'Image Info',desc:'Dimensions, size, aspect ratio',hint:'Upload to see dimensions, aspect ratio, megapixels and orientation.',render:renderImgInfo},
+  {id:'b64img',cat:'image',icon:'b64img',name:'Image to Base64',desc:'Convert images to Base64',hint:'Get plain Base64 string or full data URI for HTML/CSS embedding.',render:renderBase64Image},
+  {id:'picker',cat:'image',icon:'picker',name:'Color Picker',desc:'Sample colors from image',hint:'Click anywhere on the image to sample that pixel as HEX.',render:renderColorPicker},
+  {id:'crop',cat:'image',icon:'crop',name:'Image Cropper',desc:'Crop any region of an image',hint:'Set crop region with X, Y, W, H. Leave W/H at full for auto.',render:renderCrop},
+  {id:'border',cat:'image',icon:'border',name:'Image Border',desc:'Add colored borders',hint:'Add a colored frame around your image. Width is in pixels.',render:renderBorder},
+  {id:'pixelate',cat:'image',icon:'pixelate',name:'Image Pixelate',desc:'Blur image into blocks',hint:'Larger block = chunkier mosaic. Slide to adjust block size.',render:renderPixelate},
+  {id:'sketch',cat:'image',icon:'sketch',name:'Image Sketch',desc:'Turn photos into pencil sketches',hint:'Pencil sketch effect via grayscale, inversion and blur blending.',render:renderSketch},
+  {id:'circle',cat:'image',icon:'circle',name:'Circle Crop',desc:'Crop to circular PNG',hint:'Largest centered circle crop with transparent background.',render:renderCircle},
+  {id:'thumbs',cat:'image',icon:'thumbs',name:'Thumbnail Batch',desc:'Generate many sizes at once',hint:'Generates 5 standard sizes at once — click any thumbnail or download all.',render:renderThumbs},
+  {id:'img2pdf',cat:'pdf',icon:'img2pdf',name:'Images to PDF',desc:'Combine images into a PDF',hint:'Select multiple images. Pages are merged in the order you select them.',render:renderImagesToPdf},
+  {id:'mergepdf',cat:'pdf',icon:'mergepdf',name:'Merge PDFs',desc:'Combine multiple PDFs',hint:'Select 2+ PDFs. They merge in the order you pick them.',render:renderMergePdf},
+  {id:'splitpdf',cat:'pdf',icon:'splitpdf',name:'Split PDF',desc:'Extract page ranges',hint:'Enter pages like "1-3, 5, 8-10" to extract into a new PDF.',render:renderSplitPdf},
+  {id:'rotpdf',cat:'pdf',icon:'rotpdf',name:'Rotate PDF',desc:'Rotate all pages',hint:'Rotates every page. Choose 90° clockwise, 180° or 90° counter-clockwise.',render:renderRotatePdf},
+  {id:'pdf2img',cat:'pdf',icon:'pdf2img',name:'PDF to Images',desc:'Extract pages as PNGs',hint:'Renders each PDF page as PNG. Higher scale = sharper but larger files.',render:renderPdfToImages},
+  {id:'pdfnum',cat:'pdf',icon:'pdfnum',name:'PDF Page Numbers',desc:'Add page numbers',hint:'Adds sequential page numbers to every page. Pick position and size.',render:renderPdfNum},
+  {id:'pdfwm',cat:'pdf',icon:'pdfwm',name:'PDF Watermark',desc:'Diagonal text watermark',hint:'Diagonal text watermark on every page. Lower opacity is subtler.',render:renderPdfWm},
+  {id:'pdfinfo',cat:'pdf',icon:'pdfinfo',name:'PDF Info',desc:'Metadata & page count',hint:'Reads metadata: title, author, page count, and page sizes.',render:renderPdfInfo},
+  {id:'qrgen',cat:'utility',icon:'qrgen',name:'QR Generator',desc:'QR codes for any text',hint:'Type text or URL. Larger size = more scannable QR.',render:renderQrGen},
+  {id:'qrscan',cat:'utility',icon:'qrscan',name:'QR Scanner',desc:'Read QR codes',hint:'Upload a QR code image — the encoded text is extracted automatically.',render:renderQrScan},
+  {id:'caseconv',cat:'utility',icon:'caseconv',name:'Case Converter',desc:'UPPER, lower, Title, camel…',hint:'Paste text, then click any case button to convert.',render:renderCaseConvert},
+  {id:'password',cat:'utility',icon:'password',name:'Password Generator',desc:'Strong random passwords',hint:'Choose length and character sets. Uses crypto-strong randomness.',render:renderPassword},
+  {id:'hashgen',cat:'utility',icon:'hashgen',name:'Hash Generator',desc:'SHA-1/256/384/512',hint:'Hashes update as you type. SHA-256 is recommended for most uses.',render:renderHash},
+  {id:'colorconv',cat:'utility',icon:'colorconv',name:'Color Converter',desc:'HEX ⇄ RGB ⇄ HSL',hint:'Type or pick a color — HEX, RGB and HSL are shown simultaneously.',render:renderColorConvert},
+  {id:'words',cat:'utility',icon:'words',name:'Word Counter',desc:'Words, chars, reading time',hint:'Word, character and reading-time counts update live as you type.',render:renderWords},
+  {id:'reverse',cat:'utility',icon:'reverse',name:'Text Reverser',desc:'Reverse chars, words, lines',hint:'Reverses the entire string, word order, or line order.',render:renderReverse},
+  {id:'urlcodec',cat:'utility',icon:'urlcodec',name:'URL Encoder',desc:'Encode/decode URLs',hint:'Encode special characters for URLs or decode back to readable text.',render:renderUrlCodec},
+  {id:'b64text',cat:'utility',icon:'b64text',name:'Base64 Text',desc:'Encode/decode text',hint:'Standard Base64 encoding of UTF-8 text.',render:renderB64Text},
+  {id:'diff',cat:'utility',icon:'diff',name:'Text Diff',desc:'Compare two texts',hint:'Line-by-line comparison. Lines marked + added, - removed.',render:renderDiff},
+  {id:'lorem',cat:'utility',icon:'lorem',name:'Lorem Ipsum',desc:'Placeholder text',hint:'Generate classic Lorem Ipsum placeholder paragraphs.',render:renderLorem},
+  {id:'rng',cat:'utility',icon:'rng',name:'Random Numbers',desc:'Generate random numbers',hint:'Choose min, max, count. Enable unique to prevent duplicates.',render:renderRng},
+  {id:'dice',cat:'utility',icon:'dice',name:'Dice & Coin',desc:'Roll dice or flip coins',hint:'Click a die type to roll. Or flip a coin for heads/tails.',render:renderDice},
+  {id:'stopwatch',cat:'utility',icon:'stopwatch',name:'Stopwatch',desc:'Time anything with laps',hint:'Start, stop, lap. Times run entirely in your browser.',render:renderStopwatch},
+  {id:'bmi',cat:'utility',icon:'bmi',name:'BMI Calculator',desc:'Check your body mass index',hint:'BMI = weight / height². Values are informational only.',render:renderBmi},
+  {id:'tip',cat:'utility',icon:'tip',name:'Tip Calculator',desc:'Split bills with tip',hint:'Split the total (bill + tip) evenly among people.',render:renderTip},
+];
+
+/* ============ NAV + PAGINATION ============ */
+const PAGE_SIZE=12;
+let loadedCount=PAGE_SIZE;
+let cardEls=[];
+
+const grid=$('#grid'),toolView=$('#toolView'),toolTitle=$('#toolTitle'),
+      toolBody=$('#toolBody'),search=$('#search'),filters=$('#filters'),
+      hero=$('#hero'),toolHead=$('#toolHead'),siteHeader=$('#siteHeader'),
+      scrollTopBtn=$('#scrollTop');
+
+function buildGrid(){
+  grid.innerHTML=tools.map(t=>`
+    <button class="card" data-id="${t.id}" data-cat="${t.cat}"
+            data-search="${(t.name+' '+t.desc).toLowerCase()}">
+      <div class="icon">${ICONS[t.icon]}</div>
+      <h3>${t.name}</h3><p>${t.desc}</p>
+    </button>`).join('');
+  cardEls=[...grid.querySelectorAll('.card')];
+  cardEls.forEach((c,i)=>{
+    c.addEventListener('click',()=>openTool(c.dataset.id));
+    if(i>=loadedCount)c.classList.add('hidden');
+    else c.classList.add('visible');
+    c.style.animationDelay=`${Math.min(i,10)*60}ms`;
+  });
+  $('#toolCount').textContent=tools.length+' tools';
+  $('#aboutToolCount').textContent=tools.length;
+  updateLoadMore();
+  toggleEmpty();
+}
+
+function updateLoadMore(){
+  const wrap=$('#loadMoreWrap');
+  const isFiltering=search.value.trim()!==''||activeCat!=='all';
+  if(isFiltering||loadedCount>=tools.length){wrap.classList.add('hidden');}
+  else{wrap.classList.remove('hidden');
+    const remaining=tools.length-loadedCount;
+    const next=Math.min(PAGE_SIZE,remaining);
+    $('#loadMoreCount').textContent=`+${next} of ${remaining}`;}
+}
+
+$('#loadMoreBtn').addEventListener('click',()=>{
+  const prev=loadedCount;
+  loadedCount=Math.min(loadedCount+PAGE_SIZE,tools.length);
+  cardEls.forEach((c,i)=>{
+    if(i>=prev&&i<loadedCount){
+      c.classList.remove('hidden');
+      c.style.animationDelay=`${(i-prev)*50}ms`;
+      c.classList.add('visible');
+    }
+  });
+  updateLoadMore();
+  showToast(`Loaded ${loadedCount-prev} more tools`);
+});
+
+/* ============ TOOL OPENING with BLUR ============ */
+let _openTimer=null, _closeTimer=null;
+function openTool(id){
+  const t=tools.find(x=>x.id===id);if(!t)return;
+  grid.classList.add('hidden');
+  filters.classList.add('hidden');
+  hero.classList.add('hidden');
+  $('#loadMoreWrap').classList.add('hidden');
+  if(_closeTimer){clearTimeout(_closeTimer);_closeTimer=null;}
+  if(_openTimer){clearTimeout(_openTimer);_openTimer=null;}
+  toolView.classList.remove('hidden','opening','closing');
+  void toolView.offsetHeight;
+  toolView.classList.add('opening');
+  document.body.classList.add('tool-open');
+  toolTitle.innerHTML=`<span class="title-icon">${ICONS[t.icon]}</span>${t.name}`;
+  toolBody.innerHTML='';
+  if(t.hint){
+    const hintEl=document.createElement('div');
+    hintEl.className='tool-hint';
+    hintEl.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>${t.hint}</span>`;
+    toolBody.appendChild(hintEl);
+  }
+  const wrapper=document.createElement('div');
+  toolBody.appendChild(wrapper);
+  try{t.render(wrapper);}catch(e){wrapper.innerHTML=`<div class="out error">⚠️ ${e.message}</div>`;}
+  window.scrollTo({top:0,behavior:'smooth'});
+  _openTimer=setTimeout(()=>{toolView.classList.remove('opening');_openTimer=null;},720);
+}
+
+function closeTool(){
+  if(toolView.classList.contains('hidden'))return;
+  if(_openTimer){clearTimeout(_openTimer);_openTimer=null;}
+  toolView.classList.remove('opening');
+  toolView.classList.add('closing');
+  _closeTimer=setTimeout(()=>{
+    toolView.classList.add('hidden');
+    toolView.classList.remove('closing','opening');
+    grid.classList.remove('hidden');
+    filters.classList.remove('hidden');
+    hero.classList.remove('hidden');
+    document.body.classList.remove('tool-open');
+    toolBody.innerHTML='';
+    updateLoadMore();
+    window.scrollTo({top:0,behavior:'smooth'});
+    _closeTimer=null;
+  },420);
+}
+
+$('#backBtn').addEventListener('click',closeTool);
+$('#headerBack').addEventListener('click',closeTool);
+
+const onScroll=()=>{
+  const y=window.scrollY;
+  siteHeader.classList.toggle('scrolled',y>12);
+  scrollTopBtn.classList.toggle('show',y>300);
+  if(!toolView.classList.contains('hidden')){
+    const top=toolHead.getBoundingClientRect().top;
+    const hh=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'),10)||96;
+    toolHead.classList.toggle('stuck',top<=hh+2);
+  }
+};
+window.addEventListener('scroll',onScroll,{passive:true});
+scrollTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+let activeCat='all';
+filters.addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-pill');if(!btn)return;
+  activeCat=btn.dataset.cat;
+  filters.querySelectorAll('.filter-pill').forEach(b=>b.classList.toggle('active',b===btn));
+  applyFilter();
+});
+
+function applyFilter(){
+  const q=search.value.trim().toLowerCase();
+  const isFiltering=q!==''||activeCat!=='all';
+  let visibleIdx=0;
+  cardEls.forEach((card,i)=>{
+    const catOk=activeCat==='all'||card.dataset.cat===activeCat;
+    const searchOk=!q||card.dataset.search.includes(q);
+    const matches=catOk&&searchOk;
+    const shouldShow=matches&&(isFiltering||i<loadedCount);
+    card.classList.toggle('hidden',!shouldShow);
+    if(shouldShow){
+      card.classList.remove('visible');
+      void card.offsetHeight;
+      card.style.animationDelay=`${visibleIdx*40}ms`;
+      card.classList.add('visible');
+      visibleIdx++;
+    }
+  });
+  updateLoadMore();
+  toggleEmpty();
+}
+function toggleEmpty(){
+  const v=[...grid.querySelectorAll('.card:not(.hidden)')].length;
+  let msg=$('#noResults');
+  if(!v){if(!msg){msg=document.createElement('p');msg.id='noResults';msg.className='empty';msg.textContent='No tools match that search.';grid.after(msg);}}
+  else if(msg)msg.remove();
+}
+search.addEventListener('input',applyFilter);
+
+/* ============ OPTIONS MENU ============ */
+const optionsBtn=$('#optionsBtn'),optionsMenu=$('#optionsMenu');
+function openMenu(){optionsMenu.classList.add('open');optionsBtn.classList.add('active');optionsBtn.setAttribute('aria-expanded','true');}
+function closeMenu(){optionsMenu.classList.remove('open');optionsBtn.classList.remove('active');optionsBtn.setAttribute('aria-expanded','false');}
+optionsBtn.addEventListener('click',e=>{e.stopPropagation();optionsMenu.classList.contains('open')?closeMenu():openMenu();});
+document.addEventListener('click',e=>{if(!optionsMenu.contains(e.target)&&!optionsBtn.contains(e.target))closeMenu();});
+optionsMenu.addEventListener('click',e=>{
+  const item=e.target.closest('[data-action]');if(!item)return;
+  closeMenu();handleAction(item.dataset.action);
+});
+function handleAction(a){
+  if(a==='theme')toggleTheme();
+  else if(a==='shortcuts')openModal('shortcutsModal');
+  else if(a==='about')openModal('aboutModal');
+  else if(a==='contact')openModal('contactModal');
+  else if(a==='reset')resetPrefs();
+}
+function openModal(id){const m=document.getElementById(id);if(!m)return;m.classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(m){m.classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.modal-backdrop').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m||e.target.closest('[data-close-modal]'))closeModal(m);});
+});
+
+['aboutCopyEmail','contactCopyEmail'].forEach(id=>{
+  const btn=document.getElementById(id);
+  if(btn)btn.addEventListener('click',e=>copyText('toolhubsupport12@gmail.com',e.currentTarget));
+});
+
+const safeGet=k=>{try{return localStorage.getItem(k);}catch{return null;}};
+const safeSet=(k,v)=>{try{localStorage.setItem(k,v);}catch{}};
+function setupTheme(){
+  let t='dark';
+  try{const s=safeGet('theme');const d=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;
+    t=s||(d?'light':'dark');
+  }catch{}
+  document.documentElement.dataset.theme=t;
+}
+function toggleTheme(){
+  const c=document.documentElement.dataset.theme;
+  const n=c==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=n;safeSet('theme',n);
+  showToast(`Switched to ${n} mode`);
+  const btn=$('#themeToggle');
+  btn.classList.add('spin');
+  setTimeout(()=>btn.classList.remove('spin'),600);
+}
+$('#themeToggle').addEventListener('click',toggleTheme);
+function resetPrefs(){
+  try{localStorage.removeItem('theme');}catch{}
+  document.documentElement.dataset.theme='dark';
+  showToast('Preferences reset');
+}
+document.addEventListener('keydown',e=>{
+  const tag=(e.target.tagName||'').toLowerCase();
+  const typing=tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable;
+  if(e.key==='Escape'){
+    const om=document.querySelector('.modal-backdrop.open');
+    if(om){closeModal(om);return;}
+    if(optionsMenu.classList.contains('open')){closeMenu();return;}
+    if(!toolView.classList.contains('hidden')){closeTool();return;}
+    if(e.target===search&&search.value){search.value='';applyFilter();}
+    return;
+  }
+  if(typing)return;
+  if(e.key==='/'){e.preventDefault();if(!toolView.classList.contains('hidden')){closeTool();setTimeout(()=>{search.focus();search.scrollIntoView({behavior:'smooth',block:'center'});},500);}else{search.focus();search.scrollIntoView({behavior:'smooth',block:'center'});}}
+  else if(e.key==='?'){e.preventDefault();openModal('shortcutsModal');}
+  else if(e.key==='t'||e.key==='T'){toggleTheme();}
+});
+
+/* ============ TYPEWRITER ============ */
+const phrases=[
+  'Image, PDF and utility tools in one place.',
+  '41 tools that run 100% in your browser.',
+  'Fast, private, and always free.'
+];
+const typeEl=$('#typeText');
+let phraseIdx=0,charIdx=0,deleting=false;
+function typeTick(){
+  if(!typeEl)return;
+  const current=phrases[phraseIdx];
+  if(!deleting){
+    typeEl.textContent=current.slice(0,++charIdx);
+    if(charIdx===current.length){deleting=true;setTimeout(typeTick,2200);return;}
+    setTimeout(typeTick,55);
+  } else {
+    typeEl.textContent=current.slice(0,--charIdx);
+    if(charIdx===0){deleting=false;phraseIdx=(phraseIdx+1)%phrases.length;setTimeout(typeTick,400);return;}
+    setTimeout(typeTick,25);
+  }
+}
+setTimeout(typeTick,600);
+
+/* ============ IMAGE TOOLS ============ */
+function imgToolSkeleton(prefix,fileTitle,hint,controlsHTML,extraHTML=''){
+  return `
+    ${dropZoneHTML(prefix+'File','image/*',false,fileTitle,hint||'PNG, JPG, WebP')}
+    <div id="${prefix}Panel" class="hidden">
+      ${controlsHTML}
+      <div class="row"><button class="btn" id="${prefix}Dl" disabled>${ICONS.download} Download</button></div>
+      ${extraHTML}
+      <div class="preview-wrap" id="${prefix}Preview"></div>
+      <div class="file-info" id="${prefix}Info"></div>
+    </div>
+    <div class="out hidden" id="${prefix}Err"></div>`;
+}
+
+function renderResize(body){
+  body.innerHTML=imgToolSkeleton('rsz','Drop an image here','PNG, JPG, WebP',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:110px"><label>Width (px)</label><input type="number" id="rszW" min="1"></div>
+      <div style="flex:1;min-width:110px"><label>Height (px)</label><input type="number" id="rszH" min="1"></div>
+    </div>
+    <div class="row"><label><input type="checkbox" id="rszLock" checked> Lock aspect ratio</label></div>`);
+  const p=$('#rszPanel',body),w=$('#rszW',body),h=$('#rszH',body),lock=$('#rszLock',body),
+        dl=$('#rszDl',body),prev=$('#rszPreview',body),info=$('#rszInfo',body),err=$('#rszErr',body);
+  let img=null,name='image.png',blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const W=Math.max(1,+w.value||img.naturalWidth),H=Math.max(1,+h.value||img.naturalHeight);
+    const c=document.createElement('canvas');c.width=W;c.height=H;
+    c.getContext('2d').drawImage(img,0,0,W,H);
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;info.textContent=`${W} × ${H} px · ${formatBytes(b.size)}`;},'image/png');
+  },80);
+  wireDropZone($('#rszFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;w.value=img.naturalWidth;h.value=img.naturalHeight;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  w.addEventListener('input',()=>{if(lock.checked&&img)h.value=Math.round(w.value*img.naturalHeight/img.naturalWidth)||'';go();});
+  h.addEventListener('input',()=>{if(lock.checked&&img)w.value=Math.round(h.value*img.naturalWidth/img.naturalHeight)||'';go();});
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-resized.png');showToast('Downloaded');}};
+}
+
+function renderCompress(body){
+  body.innerHTML=imgToolSkeleton('cmp','Drop an image here','PNG, JPG, WebP',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:150px"><label>Quality: <b id="cmpQVal">80</b>%</label>
+        <input type="range" id="cmpQ" min="10" max="100" value="80" style="width:100%"></div>
+      <div style="flex:1;min-width:150px"><label>Format</label>
+        <select id="cmpFmt"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>
+    </div>`);
+  const p=$('#cmpPanel',body),q=$('#cmpQ',body),qv=$('#cmpQVal',body),fmt=$('#cmpFmt',body),
+        dl=$('#cmpDl',body),prev=$('#cmpPreview',body),info=$('#cmpInfo',body),err=$('#cmpErr',body);
+  let img=null,name='image.jpg',orig=0,blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const ctx=c.getContext('2d');
+    if(fmt.value==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);}
+    ctx.drawImage(img,0,0);
+    c.toBlob(b=>{
+      if(!b)return;blob=b;prev.innerHTML='';
+      const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;
+      const saved=orig?((1-b.size/orig)*100).toFixed(1):'0';
+      info.textContent=`Original: ${formatBytes(orig)} → Compressed: ${formatBytes(b.size)} (${saved}% smaller)`;
+    },fmt.value,+q.value/100);
+  },100);
+  wireDropZone($('#cmpFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;orig=f.size;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  q.addEventListener('input',()=>{qv.textContent=q.value;go();});
+  fmt.addEventListener('change',go);
+  dl.onclick=()=>{if(!blob)return;const ext=fmt.value==='image/webp'?'webp':'jpg';downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-compressed.'+ext);showToast('Downloaded');};
+}
+
+function renderConvert(body){
+  body.innerHTML=imgToolSkeleton('cv','Drop an image here','PNG, JPG, WebP',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:150px"><label>Convert to</label>
+        <select id="cvFmt"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>
+    </div>`);
+  const p=$('#cvPanel',body),fmt=$('#cvFmt',body),dl=$('#cvDl',body),
+        prev=$('#cvPreview',body),info=$('#cvInfo',body),err=$('#cvErr',body);
+  let img=null,name='image.png',orig=0,blob=null;
+  function go(){
+    if(!img)return;
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const ctx=c.getContext('2d');
+    if(fmt.value==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);}
+    ctx.drawImage(img,0,0);
+    c.toBlob(b=>{
+      if(!b)return;blob=b;prev.innerHTML='';
+      const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;
+      const ext=fmt.value.split('/')[1];
+      info.textContent=`${img.naturalWidth} × ${img.naturalHeight} · ${formatBytes(orig)} → ${formatBytes(b.size)} (.${ext})`;
+    },fmt.value,0.92);
+  }
+  wireDropZone($('#cvFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;orig=f.size;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  fmt.addEventListener('change',go);
+  dl.onclick=()=>{if(!blob)return;const ext=fmt.value.split('/')[1];downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'.'+ext);showToast('Downloaded');};
+}
+
+function renderRotate(body){
+  body.innerHTML=imgToolSkeleton('rt','Drop an image here','PNG, JPG, WebP',`
+    <div class="row" style="margin-top:16px">
+      <button class="btn ghost" data-rot="-90">↺ 90° left</button>
+      <button class="btn ghost" data-rot="90">↻ 90° right</button>
+      <button class="btn ghost" data-rot="180">180°</button>
+      <button class="btn ghost" id="rtFlipH">⇋ Flip H</button>
+      <button class="btn ghost" id="rtFlipV">⇅ Flip V</button>
+    </div>`);
+  const p=$('#rtPanel',body),prev=$('#rtPreview',body),info=$('#rtInfo',body),
+        dl=$('#rtDl',body),err=$('#rtErr',body);
+  let img=null,name='image.png',rot=0,fh=false,fv=false,blob=null;
+  function go(){
+    if(!img)return;
+    const rotated=rot===90||rot===270;
+    const W=rotated?img.naturalHeight:img.naturalWidth;
+    const H=rotated?img.naturalWidth:img.naturalHeight;
+    const c=document.createElement('canvas');c.width=W;c.height=H;
+    const ctx=c.getContext('2d');
+    ctx.translate(W/2,H/2);ctx.rotate(rot*Math.PI/180);ctx.scale(fh?-1:1,fv?-1:1);
+    ctx.drawImage(img,-img.naturalWidth/2,-img.naturalHeight/2);
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;
+      info.textContent=`${W} × ${H} px · rot ${rot}°`+(fh?' · flipH':'')+(fv?' · flipV':'');},'image/png');
+  }
+  wireDropZone($('#rtFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;rot=0;fh=false;fv=false;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  body.querySelectorAll('[data-rot]').forEach(b=>b.addEventListener('click',()=>{rot=(rot+(+b.dataset.rot)+360)%360;go();}));
+  $('#rtFlipH',body).onclick=()=>{fh=!fh;go();};
+  $('#rtFlipV',body).onclick=()=>{fv=!fv;go();};
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-rotated.png');showToast('Downloaded');}};
+}
+
+function renderFilters(body){
+  const sl=[['fltB','Brightness',0,200,100,'%'],['fltC','Contrast',0,200,100,'%'],
+    ['fltS','Saturation',0,200,100,'%'],['fltBl','Blur',0,20,0,'px'],
+    ['fltG','Grayscale',0,100,0,'%'],['fltSep','Sepia',0,100,0,'%'],
+    ['fltI','Invert',0,100,0,'%'],['fltH','Hue',0,360,0,'°']];
+  body.innerHTML=imgToolSkeleton('flt','Drop an image here','PNG, JPG, WebP',
+    `<div class="row" style="margin-top:16px">${sl.map(([id,l,mi,ma,v,u])=>`
+      <div style="flex:1;min-width:140px">
+        <label>${l}: <b id="${id}v">${v}</b>${u}</label>
+        <input type="range" id="${id}" min="${mi}" max="${ma}" value="${v}" style="width:100%">
+      </div>`).join('')}</div>
+    <div class="row"><button class="btn ghost" id="fltReset">Reset</button></div>`);
+  const p=$('#fltPanel',body),prev=$('#fltPreview',body),err=$('#fltErr',body),dl=$('#fltDl',body);
+  let img=null,name='image.png',blob=null;
+  const filterStr=()=>`brightness(${+$('#fltB',body).value}%) contrast(${+$('#fltC',body).value}%) saturate(${+$('#fltS',body).value}%) blur(${+$('#fltBl',body).value}px) grayscale(${+$('#fltG',body).value}%) sepia(${+$('#fltSep',body).value}%) invert(${+$('#fltI',body).value}%) hue-rotate(${+$('#fltH',body).value}deg)`;
+  const go=debounce(()=>{
+    if(!img)return;
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const ctx=c.getContext('2d');ctx.filter=filterStr();ctx.drawImage(img,0,0);ctx.filter='none';
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;},'image/png');
+  },60);
+  wireDropZone($('#fltFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  sl.forEach(([id])=>$('#'+id,body).addEventListener('input',()=>{$('#'+id+'v',body).textContent=$('#'+id,body).value;go();}));
+  $('#fltReset',body).onclick=()=>{sl.forEach(([id,,, ,v])=>{$('#'+id,body).value=v;$('#'+id+'v',body).textContent=v;});go();};
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-filtered.png');showToast('Downloaded');}};
+}
+
+function renderWatermark(body){
+  body.innerHTML=imgToolSkeleton('wm','Drop an image here','PNG, JPG, WebP',`
+    <div class="field" style="margin-top:16px"><label>Watermark text</label>
+      <input type="text" id="wmText" value="© Your Name"></div>
+    <div class="row" style="margin-top:0">
+      <div style="flex:1;min-width:120px"><label>Position</label>
+        <select id="wmPos"><option value="br" selected>Bottom right</option><option value="bl">Bottom left</option><option value="tr">Top right</option><option value="tl">Top left</option><option value="c">Center</option></select></div>
+      <div style="flex:1;min-width:120px"><label>Size: <b id="wmSizeVal">4</b>%</label>
+        <input type="range" id="wmSize" min="1" max="20" value="4" style="width:100%"></div>
+      <div style="flex:1;min-width:120px"><label>Opacity: <b id="wmOpVal">60</b>%</label>
+        <input type="range" id="wmOp" min="10" max="100" value="60" style="width:100%"></div>
+      <div style="flex:0 0 84px"><label>Color</label>
+        <input type="color" id="wmColor" value="#ffffff" style="width:100%;height:42px"></div>
+    </div>`);
+  const p=$('#wmPanel',body),prev=$('#wmPreview',body),err=$('#wmErr',body),dl=$('#wmDl',body);
+  let img=null,name='image.png',blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const ctx=c.getContext('2d');ctx.drawImage(img,0,0);
+    const text=$('#wmText',body).value||'';
+    const fs=Math.max(10,Math.round(Math.min(c.width,c.height)*(+$('#wmSize',body).value/100)));
+    const pad=Math.round(fs*.6);
+    ctx.font=`700 ${fs}px "Plus Jakarta Sans",sans-serif`;ctx.textBaseline='alphabetic';
+    const tw=ctx.measureText(text).width,th=fs;
+    let x,y;const pos=$('#wmPos',body).value;
+    if(pos==='br'){x=c.width-tw-pad;y=c.height-pad;}
+    else if(pos==='bl'){x=pad;y=c.height-pad;}
+    else if(pos==='tr'){x=c.width-tw-pad;y=pad+th;}
+    else if(pos==='tl'){x=pad;y=pad+th;}
+    else{x=(c.width-tw)/2;y=(c.height+th)/2;}
+    ctx.globalAlpha=+$('#wmOp',body).value/100;
+    ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=Math.round(fs*.15);
+    ctx.fillStyle=$('#wmColor',body).value;ctx.fillText(text,x,y);
+    ctx.globalAlpha=1;ctx.shadowBlur=0;
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;},'image/png');
+  },60);
+  wireDropZone($('#wmFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  ['#wmText','#wmPos','#wmSize','#wmOp','#wmColor'].forEach(s=>$(s,body).addEventListener('input',()=>{
+    $('#wmSizeVal',body).textContent=$('#wmSize',body).value;
+    $('#wmOpVal',body).textContent=$('#wmOp',body).value;
+    go();
+  }));
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-watermark.png');showToast('Downloaded');}};
+}
+
+function renderFavicon(body){
+  const sizes=[16,32,48,64,180,192,512];
+  body.innerHTML=`
+    ${dropZoneHTML('fvFile','image/*',false,'Drop a square image here','Ideal: 512×512 PNG')}
+    <div id="fvPanel" class="hidden">
+      <div class="thumb-grid" id="fvThumbs"></div>
+      <div class="row"><button class="btn" id="fvDl">${ICONS.download} Download all</button></div>
+      <div class="file-info" id="fvInfo"></div>
+    </div>
+    <div class="out hidden" id="fvErr"></div>`;
+  const p=$('#fvPanel',body),th=$('#fvThumbs',body),info=$('#fvInfo',body),err=$('#fvErr',body);
+  let name='favicon',res=[];
+  wireDropZone($('#fvFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      const img=await loadImage(f);name=f.name.replace(/\.[^.]+$/,'');th.innerHTML='';res=[];
+      for(const s of sizes){
+        const c=document.createElement('canvas');c.width=s;c.height=s;
+        const ctx=c.getContext('2d');
+        const sc=Math.min(s/img.naturalWidth,s/img.naturalHeight);
+        const w=img.naturalWidth*sc,h=img.naturalHeight*sc;
+        ctx.drawImage(img,(s-w)/2,(s-h)/2,w,h);
+        const url=c.toDataURL('image/png');
+        const d=document.createElement('div');d.className='thumb';
+        d.innerHTML=`<a href="${url}" download="${name}-${s}x${s}.png" style="display:block"><img src="${url}" style="width:100%;image-rendering:pixelated"><span class="num">${s}×${s}</span></a>`;
+        th.appendChild(d);res.push({s,c});
+      }
+      p.classList.remove('hidden');info.textContent=`${sizes.length} sizes ready — click thumbnail or download all.`;
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  $('#fvDl',body).onclick=async()=>{
+    if(!res.length)return;
+    for(const r of res){const b=await new Promise(x=>r.c.toBlob(x,'image/png'));downloadBlob(b,`${name}-${r.s}x${r.s}.png`);await new Promise(x=>setTimeout(x,250));}
+    showToast(`${res.length} favicons downloaded`);
+  };
+}
+
+function renderImgInfo(body){
+  body.innerHTML=`
+    ${dropZoneHTML('ifFile','image/*',false,'Drop an image here','Dimensions & metadata')}
+    <div id="ifPanel" class="hidden">
+      <div class="preview-wrap" id="ifPreview"></div>
+      <div class="out" id="ifOut"></div>
+    </div>
+    <div class="out hidden" id="ifErr"></div>`;
+  const p=$('#ifPanel',body),prev=$('#ifPreview',body),out=$('#ifOut',body),err=$('#ifErr',body);
+  const gcd=(a,b)=>b?gcd(b,a%b):a;
+  wireDropZone($('#ifFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      const img=await loadImage(f);
+      prev.innerHTML=`<img src="${img.src}" style="max-height:260px">`;
+      const w=img.naturalWidth,h=img.naturalHeight,g=gcd(w,h)||1;
+      out.textContent=`File name   : ${f.name}\nFile size   : ${formatBytes(f.size)}\nMIME type   : ${f.type||'unknown'}\nDimensions  : ${w} × ${h} px\nAspect ratio: ${w/g}:${h/g}\nMegapixels  : ${(w*h/1e6).toFixed(2)} MP\nOrientation : ${w>h?'Landscape':w<h?'Portrait':'Square'}`;
+      p.classList.remove('hidden');
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+}
+
+function renderBase64Image(body){
+  body.innerHTML=`
+    ${dropZoneHTML('b64File','image/*',false,'Drop an image here','PNG, JPG, WebP, SVG')}
+    <div id="b64Panel" class="hidden">
+      <div class="preview-wrap" id="b64Preview"></div>
+      <div class="field" style="margin-top:16px"><label>Base64</label>
+        <textarea id="b64Out" rows="6" readonly style="font-family:monospace;font-size:.78rem"></textarea></div>
+      <div class="row"><button class="btn" id="b64Copy">Copy Base64</button>
+        <button class="btn ghost" id="b64CopyUri">Copy Data URI</button></div>
+      <div class="file-info" id="b64Info"></div>
+    </div>
+    <div class="out hidden" id="b64Err"></div>`;
+  const p=$('#b64Panel',body),prev=$('#b64Preview',body),out=$('#b64Out',body),
+        info=$('#b64Info',body),err=$('#b64Err',body);
+  let uri='';
+  wireDropZone($('#b64File',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      uri=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f);});
+      out.value=uri.split(',')[1];
+      prev.innerHTML=`<img src="${uri}" style="max-height:180px">`;
+      p.classList.remove('hidden');
+      info.textContent=`${f.name} · ${formatBytes(f.size)} · ${formatBytes(out.value.length)} Base64`;
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  $('#b64Copy',body).onclick=e=>copyText(out.value,e.target);
+  $('#b64CopyUri',body).onclick=e=>copyText(uri,e.target);
+}
+
+function renderColorPicker(body){
+  body.innerHTML=`
+    ${dropZoneHTML('pkFile','image/*',false,'Drop an image here','Click to sample a color')}
+    <div id="pkPanel" class="hidden">
+      <div class="preview-wrap"><canvas id="pkCanvas" style="cursor:crosshair;max-width:100%;display:block"></canvas></div>
+      <div class="out" id="pkColor" style="margin-top:16px">Click on the image to sample a color.</div>
+      <div class="row">
+        <div style="width:52px;height:52px;border-radius:13px;border:1px solid var(--glass-border);transition:background .3s,transform .3s" id="pkSwatch"></div>
+        <button class="btn ghost" id="pkCopy" disabled>Copy HEX</button>
+      </div>
+    </div>
+    <div class="out hidden" id="pkErr"></div>`;
+  const p=$('#pkPanel',body),canvas=$('#pkCanvas',body),out=$('#pkColor',body),
+        sw=$('#pkSwatch',body),cp=$('#pkCopy',body),err=$('#pkErr',body);
+  let hex='';
+  wireDropZone($('#pkFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      const img=await loadImage(f);
+      const sc=Math.min(1,760/img.naturalWidth);
+      canvas.width=Math.round(img.naturalWidth*sc);canvas.height=Math.round(img.naturalHeight*sc);
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      p.classList.remove('hidden');
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  function pick(e){
+    const r=canvas.getBoundingClientRect();
+    const x=Math.floor((e.clientX-r.left)*(canvas.width/r.width));
+    const y=Math.floor((e.clientY-r.top)*(canvas.height/r.height));
+    if(x<0||y<0||x>=canvas.width||y>=canvas.height)return;
+    const d=canvas.getContext('2d').getImageData(x,y,1,1).data;
+    hex='#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
+    out.textContent=`HEX: ${hex}\nRGB: rgb(${d[0]}, ${d[1]}, ${d[2]})`;
+    sw.style.background=hex;sw.style.transform='scale(1.15)';
+    setTimeout(()=>sw.style.transform='scale(1)',200);
+    cp.disabled=false;
+  }
+  canvas.addEventListener('click',pick);
+  canvas.addEventListener('touchstart',e=>{if(e.touches.length)pick(e.touches[0]);},{passive:true});
+  cp.onclick=e=>copyText(hex,e.target);
+}
+
+function renderCrop(body){
+  body.innerHTML=imgToolSkeleton('cr','Drop an image here','Crop to any region',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:80px"><label>X</label><input type="number" id="crX" value="0" min="0"></div>
+      <div style="flex:1;min-width:80px"><label>Y</label><input type="number" id="crY" value="0" min="0"></div>
+      <div style="flex:1;min-width:80px"><label>W</label><input type="number" id="crW" min="1"></div>
+      <div style="flex:1;min-width:80px"><label>H</label><input type="number" id="crH" min="1"></div>
+    </div>`);
+  const p=$('#crPanel',body),prev=$('#crPreview',body),err=$('#crErr',body),dl=$('#crDl',body),info=$('#crInfo',body);
+  let img=null,name='image.png',blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const x=Math.max(0,+$('#crX',body).value||0),y=Math.max(0,+$('#crY',body).value||0);
+    const w=Math.max(1,Math.min(img.naturalWidth-x,+$('#crW',body).value||img.naturalWidth));
+    const h=Math.max(1,Math.min(img.naturalHeight-y,+$('#crH',body).value||img.naturalHeight));
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    c.getContext('2d').drawImage(img,x,y,w,h,0,0,w,h);
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;info.textContent=`${w} × ${h} px`;},'image/png');
+  },80);
+  wireDropZone($('#crFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      img=await loadImage(f);name=f.name;
+      $('#crW',body).value=img.naturalWidth;$('#crH',body).value=img.naturalHeight;
+      p.classList.remove('hidden');go();
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  ['#crX','#crY','#crW','#crH'].forEach(s=>$(s,body).addEventListener('input',go));
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-cropped.png');showToast('Downloaded');}};
+}
+
+function renderBorder(body){
+  body.innerHTML=imgToolSkeleton('bd','Drop an image here','Add colored border',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:120px"><label>Border width: <b id="bdWVal">20</b>px</label>
+        <input type="range" id="bdW" min="0" max="200" value="20" style="width:100%"></div>
+      <div style="flex:1;min-width:120px"><label>Color</label>
+        <input type="color" id="bdColor" value="#7c3aed" style="width:100%;height:42px"></div>
+    </div>`);
+  const p=$('#bdPanel',body),prev=$('#bdPreview',body),err=$('#bdErr',body),dl=$('#bdDl',body);
+  let img=null,name='image.png',blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const bw=+$('#bdW',body).value||0;
+    const c=document.createElement('canvas');c.width=img.naturalWidth+bw*2;c.height=img.naturalHeight+bw*2;
+    const ctx=c.getContext('2d');
+    ctx.fillStyle=$('#bdColor',body).value;ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(img,bw,bw);
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;},'image/png');
+  },60);
+  wireDropZone($('#bdFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  ['#bdW','#bdColor'].forEach(s=>$(s,body).addEventListener('input',()=>{$('#bdWVal',body).textContent=$('#bdW',body).value;go();}));
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-bordered.png');showToast('Downloaded');}};
+}
+
+function renderPixelate(body){
+  body.innerHTML=imgToolSkeleton('px','Drop an image here','Mosaic effect',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:150px"><label>Block size: <b id="pxBVal">12</b>px</label>
+        <input type="range" id="pxB" min="2" max="60" value="12" style="width:100%"></div>
+    </div>`);
+  const p=$('#pxPanel',body),prev=$('#pxPreview',body),err=$('#pxErr',body),dl=$('#pxDl',body);
+  let img=null,name='image.png',blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const b=+$('#pxB',body).value||12;
+    const w=Math.max(1,Math.floor(img.naturalWidth/b)),h=Math.max(1,Math.floor(img.naturalHeight/b));
+    const small=document.createElement('canvas');small.width=w;small.height=h;
+    small.getContext('2d').drawImage(img,0,0,w,h);
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const ctx=c.getContext('2d');ctx.imageSmoothingEnabled=false;
+    ctx.drawImage(small,0,0,c.width,c.height);
+    c.toBlob(bb=>{blob=bb;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;},'image/png');
+  },60);
+  wireDropZone($('#pxFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  $('#pxB',body).addEventListener('input',()=>{$('#pxBVal',body).textContent=$('#pxB',body).value;go();});
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-pixelated.png');showToast('Downloaded');}};
+}
+
+function renderSketch(body){
+  body.innerHTML=imgToolSkeleton('sk','Drop an image here','Pencil sketch effect',`
+    <div class="row" style="margin-top:16px">
+      <div style="flex:1;min-width:150px"><label>Blur: <b id="skBVal">6</b>px</label>
+        <input type="range" id="skB" min="1" max="20" value="6" style="width:100%"></div>
+    </div>`);
+  const p=$('#skPanel',body),prev=$('#skPreview',body),err=$('#skErr',body),dl=$('#skDl',body);
+  let img=null,name='image.png',blob=null;
+  const go=debounce(()=>{
+    if(!img)return;
+    const blur=+$('#skB',body).value||6;
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const ctx=c.getContext('2d');
+    ctx.filter='grayscale(1) contrast(1.5)';ctx.drawImage(img,0,0);ctx.filter='none';
+    const data=ctx.getImageData(0,0,c.width,c.height);
+    for(let i=0;i<data.data.length;i+=4){data.data[i]=255-data.data[i];data.data[i+1]=255-data.data[i+1];data.data[i+2]=255-data.data[i+2];}
+    ctx.putImageData(data,0,0);
+    const bc=document.createElement('canvas');bc.width=c.width;bc.height=c.height;
+    const bx=bc.getContext('2d');bx.filter=`blur(${blur}px)`;bx.drawImage(c,0,0);
+    ctx.globalCompositeOperation='color-dodge';ctx.drawImage(bc,0,0);ctx.globalCompositeOperation='source-over';
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;},'image/png');
+  },80);
+  wireDropZone($('#skFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  $('#skB',body).addEventListener('input',()=>{$('#skBVal',body).textContent=$('#skB',body).value;go();});
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-sketch.png');showToast('Downloaded');}};
+}
+
+function renderCircle(body){
+  body.innerHTML=imgToolSkeleton('cc','Drop an image here','Circular PNG',`
+    <div class="row" style="margin-top:16px"><label style="color:var(--text-muted);font-weight:500">Square image works best for circular crops.</label></div>`);
+  const p=$('#ccPanel',body),prev=$('#ccPreview',body),err=$('#ccErr',body),dl=$('#ccDl',body);
+  let img=null,name='image.png',blob=null;
+  function go(){
+    if(!img)return;
+    const s=Math.min(img.naturalWidth,img.naturalHeight);
+    const c=document.createElement('canvas');c.width=s;c.height=s;
+    const ctx=c.getContext('2d');
+    ctx.beginPath();ctx.arc(s/2,s/2,s/2,0,Math.PI*2);ctx.closePath();ctx.clip();
+    ctx.drawImage(img,(s-img.naturalWidth)/2,(s-img.naturalHeight)/2);
+    c.toBlob(b=>{blob=b;prev.innerHTML='';const d=c.cloneNode();d.getContext('2d').drawImage(c,0,0);prev.appendChild(d);dl.disabled=false;},'image/png');
+  }
+  wireDropZone($('#ccFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{img=await loadImage(f);name=f.name;p.classList.remove('hidden');go();}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  dl.onclick=()=>{if(blob){downloadBlob(blob,name.replace(/\.[^.]+$/,'')+'-circle.png');showToast('Downloaded');}};
+}
+
+function renderThumbs(body){
+  const sizes=[64,128,256,512,1024];
+  body.innerHTML=`
+    ${dropZoneHTML('thFile','image/*',false,'Drop an image here','Batch thumbnail sizes')}
+    <div id="thPanel" class="hidden">
+      <div class="thumb-grid" id="thThumbs"></div>
+      <div class="row"><button class="btn" id="thDl">${ICONS.download} Download all</button></div>
+      <div class="file-info" id="thInfo"></div>
+    </div>
+    <div class="out hidden" id="thErr"></div>`;
+  const p=$('#thPanel',body),th=$('#thThumbs',body),info=$('#thInfo',body),err=$('#thErr',body);
+  let name='thumb',res=[];
+  wireDropZone($('#thFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      const img=await loadImage(f);name=f.name.replace(/\.[^.]+$/,'');th.innerHTML='';res=[];
+      for(const s of sizes){
+        const c=document.createElement('canvas');c.width=s;c.height=s;
+        const ctx=c.getContext('2d');
+        const sc=Math.min(s/img.naturalWidth,s/img.naturalHeight);
+        const w=img.naturalWidth*sc,h=img.naturalHeight*sc;
+        ctx.drawImage(img,(s-w)/2,(s-h)/2,w,h);
+        const url=c.toDataURL('image/png');
+        const d=document.createElement('div');d.className='thumb';
+        d.innerHTML=`<a href="${url}" download="${name}-${s}.png" style="display:block"><img src="${url}"><span class="num">${s}×${s}</span></a>`;
+        th.appendChild(d);res.push({s,c});
+      }
+      p.classList.remove('hidden');info.textContent=`${sizes.length} sizes ready.`;
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  $('#thDl',body).onclick=async()=>{
+    if(!res.length)return;
+    for(const r of res){const b=await new Promise(x=>r.c.toBlob(x,'image/png'));downloadBlob(b,`${name}-${r.s}.png`);await new Promise(x=>setTimeout(x,250));}
+    showToast(`${res.length} thumbnails downloaded`);
+  };
+}
+
+/* ============ PDF TOOLS ============ */
+function renderImagesToPdf(body){
+  body.innerHTML=`
+    ${dropZoneHTML('ipFile','image/*',true,'Drop images here','Select multiple images')}
+    <div id="ipPanel" class="hidden">
+      <div class="thumb-grid" id="ipThumbs"></div>
+      <div class="row">
+        <div style="flex:1;min-width:160px"><label>Page size</label>
+          <select id="ipSize"><option value="fit">Fit to image</option><option value="a4">A4</option><option value="letter">Letter</option></select></div>
+        <button class="btn" id="ipGo">${ICONS.download} Create PDF</button>
+      </div>
+      <div class="out hidden" id="ipStatus"></div>
+    </div>
+    <div class="out hidden" id="ipErr"></div>`;
+  const p=$('#ipPanel',body),th=$('#ipThumbs',body),size=$('#ipSize',body),
+        go=$('#ipGo',body),status=$('#ipStatus',body),err=$('#ipErr',body);
+  let files=[];
+  wireDropZone($('#ipFile',body),async fs=>{
+    err.classList.add('hidden');
+    files=fs.filter(f=>f.type.startsWith('image/'));if(!files.length)return;
+    th.innerHTML='';
+    for(const f of files){const im=await loadImage(f);const d=document.createElement('div');d.className='thumb';d.innerHTML=`<img src="${im.src}"><span class="num">${f.name}</span>`;th.appendChild(d);}
+    p.classList.remove('hidden');
+  });
+  go.onclick=async()=>{
+    if(typeof PDFLib==='undefined'){err.className='out error';err.textContent='⚠️ PDF library not loaded.';err.classList.remove('hidden');return;}
+    if(!files.length)return;
+    go.disabled=true;go.classList.add('loading');
+    status.className='out';status.textContent='Building PDF…';status.classList.remove('hidden');
+    try{
+      const {PDFDocument}=PDFLib;const pdf=await PDFDocument.create();
+      for(const file of files){
+        let bytes=await file.arrayBuffer();let isPng=file.type==='image/png';let isJpg=file.type==='image/jpeg';
+        if(!isPng&&!isJpg){const im=await loadImage(file);const cc=document.createElement('canvas');cc.width=im.naturalWidth;cc.height=im.naturalHeight;const x=cc.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cc.width,cc.height);x.drawImage(im,0,0);const bb=await new Promise(r=>cc.toBlob(r,'image/jpeg',0.92));bytes=await bb.arrayBuffer();isPng=false;isJpg=true;}
+        const emb=isPng?await pdf.embedPng(bytes):await pdf.embedJpg(bytes);
+        let pw,ph,ix,iy,iw,ih;const sz=size.value;
+        if(sz==='a4'){pw=595.28;ph=841.89;}else if(sz==='letter'){pw=612;ph=792;}else{pw=emb.width;ph=emb.height;}
+        if(sz==='fit'){ix=0;iy=0;iw=emb.width;ih=emb.height;}
+        else{const m=24;const sc=Math.min((pw-m*2)/emb.width,(ph-m*2)/emb.height);iw=emb.width*sc;ih=emb.height*sc;ix=(pw-iw)/2;iy=(ph-ih)/2;}
+        const pg=pdf.addPage([pw,ph]);pg.drawImage(emb,{x:ix,y:iy,width:iw,height:ih});
+      }
+      const out=await pdf.save();const blob=new Blob([out],{type:'application/pdf'});
+      downloadBlob(blob,'images.pdf');status.className='out success';status.textContent=`✓ ${files.length} page(s) · ${formatBytes(blob.size)}`;showToast('PDF created');
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function renderMergePdf(body){
+  body.innerHTML=`
+    ${dropZoneHTML('mgFile','application/pdf',true,'Drop PDFs here','Select 2 or more')}
+    <div id="mgPanel" class="hidden">
+      <div class="out" id="mgList"></div>
+      <div class="row"><button class="btn" id="mgGo">${ICONS.download} Merge PDFs</button></div>
+      <div class="out hidden" id="mgStatus"></div>
+    </div>
+    <div class="out hidden" id="mgErr"></div>`;
+  const p=$('#mgPanel',body),list=$('#mgList',body),go=$('#mgGo',body),status=$('#mgStatus',body),err=$('#mgErr',body);
+  let files=[];
+  wireDropZone($('#mgFile',body),fs=>{
+    err.classList.add('hidden');
+    files=fs.filter(f=>f.type==='application/pdf'||/\.pdf$/i.test(f.name));if(!files.length)return;
+    list.textContent=files.map((f,i)=>`${i+1}. ${f.name} (${formatBytes(f.size)})`).join('\n');
+    p.classList.remove('hidden');
+  });
+  go.onclick=async()=>{
+    if(typeof PDFLib==='undefined'){err.className='out error';err.textContent='⚠️ PDF library not loaded.';err.classList.remove('hidden');return;}
+    if(files.length<2){status.className='out error';status.textContent='⚠️ Select at least 2 PDFs.';status.classList.remove('hidden');return;}
+    go.disabled=true;go.classList.add('loading');
+    status.className='out';status.textContent='Merging…';status.classList.remove('hidden');
+    try{
+      const {PDFDocument}=PDFLib;const m=await PDFDocument.create();
+      for(const f of files){const b=await f.arrayBuffer();const d=await PDFDocument.load(b);const pgs=await m.copyPages(d,d.getPageIndices());pgs.forEach(p=>m.addPage(p));}
+      const out=await m.save();const blob=new Blob([out],{type:'application/pdf'});
+      downloadBlob(blob,'merged.pdf');status.className='out success';status.textContent=`✓ ${m.getPageCount()} pages · ${formatBytes(blob.size)}`;showToast('Merged');
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function parsePageRange(s,max){
+  const set=new Set();
+  s.split(',').forEach(part=>{
+    part=part.trim();if(!part)return;
+    const m=part.match(/^(\d+)\s*-\s*(\d+)$/);
+    if(m){let a=+m[1],b=+m[2];if(a>b)[a,b]=[b,a];for(let i=a;i<=b;i++)if(i>=1&&i<=max)set.add(i-1);}
+    else if(/^\d+$/.test(part)){const n=+part;if(n>=1&&n<=max)set.add(n-1);}
+  });
+  return [...set].sort((a,b)=>a-b);
+}
+
+function renderSplitPdf(body){
+  body.innerHTML=`
+    ${dropZoneHTML('spFile','application/pdf',false,'Drop a PDF here','Extract page range')}
+    <div id="spPanel" class="hidden">
+      <div class="field" style="margin-top:16px"><label>Pages (e.g. 1-3, 5)</label>
+        <input type="text" id="spRange"></div>
+      <div class="row"><button class="btn" id="spGo">${ICONS.download} Extract</button></div>
+      <div class="out hidden" id="spStatus"></div>
+      <div class="file-info" id="spInfo"></div>
+    </div>
+    <div class="out hidden" id="spErr"></div>`;
+  const p=$('#spPanel',body),info=$('#spInfo',body),range=$('#spRange',body),
+        go=$('#spGo',body),status=$('#spStatus',body),err=$('#spErr',body);
+  let file=null,count=0,bytes=null;
+  wireDropZone($('#spFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      if(typeof PDFLib==='undefined')throw new Error('PDF library not loaded.');
+      file=f;bytes=await f.arrayBuffer();
+      const d=await PDFLib.PDFDocument.load(bytes);count=d.getPageCount();
+      range.value=`1-${count}`;info.textContent=`${f.name} · ${count} pages`;
+      p.classList.remove('hidden');
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  go.onclick=async()=>{
+    if(!file)return;
+    const idx=parsePageRange(range.value,count);
+    if(!idx.length){status.className='out error';status.textContent='⚠️ Invalid range.';status.classList.remove('hidden');return;}
+    go.disabled=true;go.classList.add('loading');
+    status.className='out';status.textContent='Extracting…';status.classList.remove('hidden');
+    try{
+      const {PDFDocument}=PDFLib;const src=await PDFDocument.load(bytes);const out=await PDFDocument.create();
+      const pgs=await out.copyPages(src,idx);pgs.forEach(p=>out.addPage(p));
+      const data=await out.save();const blob=new Blob([data],{type:'application/pdf'});
+      downloadBlob(blob,file.name.replace(/\.pdf$/i,'')+'-extracted.pdf');
+      status.className='out success';status.textContent=`✓ ${idx.length} pages · ${formatBytes(blob.size)}`;showToast('Extracted');
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function renderRotatePdf(body){
+  body.innerHTML=`
+    ${dropZoneHTML('rpFile','application/pdf',false,'Drop a PDF here','Rotate all pages')}
+    <div id="rpPanel" class="hidden">
+      <div class="row" style="margin-top:16px">
+        <div style="flex:1;min-width:160px"><label>Rotation</label>
+          <select id="rpDeg"><option value="90" selected>90° CW</option><option value="180">180°</option><option value="270">90° CCW</option></select></div>
+        <button class="btn" id="rpGo">${ICONS.download} Rotate</button>
+      </div>
+      <div class="out hidden" id="rpStatus"></div>
+      <div class="file-info" id="rpInfo"></div>
+    </div>
+    <div class="out hidden" id="rpErr"></div>`;
+  const p=$('#rpPanel',body),info=$('#rpInfo',body),deg=$('#rpDeg',body),
+        go=$('#rpGo',body),status=$('#rpStatus',body),err=$('#rpErr',body);
+  let file=null,count=0;
+  wireDropZone($('#rpFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      if(typeof PDFLib==='undefined')throw new Error('PDF library not loaded.');
+      file=f;const b=await f.arrayBuffer();const d=await PDFLib.PDFDocument.load(b);
+      count=d.getPageCount();info.textContent=`${f.name} · ${count} pages`;p.classList.remove('hidden');
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  go.onclick=async()=>{
+    if(!file)return;
+    go.disabled=true;go.classList.add('loading');
+    status.className='out';status.textContent='Rotating…';status.classList.remove('hidden');
+    try{
+      const {PDFDocument,degrees}=PDFLib;const b=await file.arrayBuffer();const d=await PDFDocument.load(b);
+      const add=+deg.value;
+      d.getPages().forEach(pg=>{const cur=pg.getRotation().angle;pg.setRotation(degrees((cur+add)%360));});
+      const data=await d.save();const blob=new Blob([data],{type:'application/pdf'});
+      downloadBlob(blob,file.name.replace(/\.pdf$/i,'')+'-rotated.pdf');
+      status.className='out success';status.textContent=`✓ Rotated ${count} pages by ${add}°`;showToast('Rotated');
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function renderPdfToImages(body){
+  body.innerHTML=`
+    ${dropZoneHTML('piFile','application/pdf',false,'Drop a PDF here','Extract pages as PNGs')}
+    <div id="piPanel" class="hidden">
+      <div class="row">
+        <div style="flex:1;min-width:160px"><label>Scale</label>
+          <select id="piScale"><option value="1">1×</option><option value="2" selected>2×</option><option value="3">3×</option></select></div>
+        <button class="btn" id="piGo">${ICONS.download} Convert</button>
+      </div>
+      <div class="thumb-grid" id="piThumbs"></div>
+      <div class="out hidden" id="piStatus"></div>
+    </div>
+    <div class="out hidden" id="piErr"></div>`;
+  const p=$('#piPanel',body),scale=$('#piScale',body),go=$('#piGo',body),
+        th=$('#piThumbs',body),status=$('#piStatus',body),err=$('#piErr',body);
+  let file=null;
+  wireDropZone($('#piFile',body),([f])=>{err.classList.add('hidden');file=f;th.innerHTML='';p.classList.remove('hidden');});
+  go.onclick=async()=>{
+    if(typeof pdfjsLib==='undefined'){err.className='out error';err.textContent='⚠️ PDF.js not loaded.';err.classList.remove('hidden');return;}
+    if(!file)return;
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    go.disabled=true;go.classList.add('loading');th.innerHTML='';
+    status.className='out';status.textContent='Rendering…';status.classList.remove('hidden');
+    try{
+      const buf=await readFile(file);const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+      const sc=+scale.value;const base=file.name.replace(/\.pdf$/i,'');
+      for(let i=1;i<=pdf.numPages;i++){
+        const pg=await pdf.getPage(i);const vp=pg.getViewport({scale:sc});
+        const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+        await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+        const url=c.toDataURL('image/png');
+        const d=document.createElement('div');d.className='thumb';
+        d.style.animationDelay=`${i*40}ms`;
+        d.innerHTML=`<a href="${url}" download="${base}-p${i}.png" style="display:block"><img src="${url}"><span class="num">Page ${i}</span></a>`;
+        th.appendChild(d);
+      }
+      status.className='out success';status.textContent=`✓ ${pdf.numPages} pages ready — click thumbnails to download.`;showToast(`${pdf.numPages} pages`);
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function renderPdfNum(body){
+  body.innerHTML=`
+    ${dropZoneHTML('pnFile','application/pdf',false,'Drop a PDF here','Add page numbers')}
+    <div id="pnPanel" class="hidden">
+      <div class="row" style="margin-top:16px">
+        <div style="flex:1;min-width:140px"><label>Position</label>
+          <select id="pnPos"><option value="bc" selected>Bottom center</option><option value="br">Bottom right</option><option value="bl">Bottom left</option></select></div>
+        <div style="flex:1;min-width:120px"><label>Font size</label>
+          <input type="number" id="pnSize" value="12" min="6" max="40"></div>
+      </div>
+      <div class="row"><button class="btn" id="pnGo">${ICONS.download} Add numbers</button></div>
+      <div class="out hidden" id="pnStatus"></div>
+      <div class="file-info" id="pnInfo"></div>
+    </div>
+    <div class="out hidden" id="pnErr"></div>`;
+  const p=$('#pnPanel',body),pos=$('#pnPos',body),size=$('#pnSize',body),
+        go=$('#pnGo',body),status=$('#pnStatus',body),info=$('#pnInfo',body),err=$('#pnErr',body);
+  let file=null;
+  wireDropZone($('#pnFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{file=f;const b=await f.arrayBuffer();const d=await PDFLib.PDFDocument.load(b);info.textContent=`${f.name} · ${d.getPageCount()} pages`;p.classList.remove('hidden');}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  go.onclick=async()=>{
+    if(!file)return;
+    go.disabled=true;go.classList.add('loading');
+    status.className='out';status.textContent='Adding numbers…';status.classList.remove('hidden');
+    try{
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const b=await file.arrayBuffer();const d=await PDFDocument.load(b);
+      const font=await d.embedFont(StandardFonts.Helvetica);
+      const sz=+size.value;
+      d.getPages().forEach((pg,i)=>{
+        const {width,height}=pg.getSize();
+        const text=`${i+1}`;
+        const tw=font.widthOfTextAtSize(text,sz);
+        let x,y;
+        if(pos.value==='bc'){x=(width-tw)/2;y=24;}
+        else if(pos.value==='br'){x=width-tw-24;y=24;}
+        else{x=24;y=24;}
+        pg.drawText(text,{x,y,size:sz,font,color:rgb(0.3,0.3,0.3)});
+      });
+      const data=await d.save();const blob=new Blob([data],{type:'application/pdf'});
+      downloadBlob(blob,file.name.replace(/\.pdf$/i,'')+'-numbered.pdf');
+      status.className='out success';status.textContent=`✓ Numbers added · ${formatBytes(blob.size)}`;showToast('Added page numbers');
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function renderPdfWm(body){
+  body.innerHTML=`
+    ${dropZoneHTML('pwFile','application/pdf',false,'Drop a PDF here','Diagonal watermark')}
+    <div id="pwPanel" class="hidden">
+      <div class="field" style="margin-top:16px"><label>Watermark text</label>
+        <input type="text" id="pwText" value="CONFIDENTIAL"></div>
+      <div class="row" style="margin-top:0">
+        <div style="flex:1;min-width:120px"><label>Opacity: <b id="pwOpVal">20</b>%</label>
+          <input type="range" id="pwOp" min="5" max="100" value="20" style="width:100%"></div>
+        <div style="flex:1;min-width:120px"><label>Font size</label>
+          <input type="number" id="pwSize" value="60" min="10" max="150"></div>
+      </div>
+      <div class="row"><button class="btn red" id="pwGo">${ICONS.download} Add watermark</button></div>
+      <div class="out hidden" id="pwStatus"></div>
+      <div class="file-info" id="pwInfo"></div>
+    </div>
+    <div class="out hidden" id="pwErr"></div>`;
+  const p=$('#pwPanel',body),txt=$('#pwText',body),op=$('#pwOp',body),opv=$('#pwOpVal',body),
+        size=$('#pwSize',body),go=$('#pwGo',body),status=$('#pwStatus',body),
+        info=$('#pwInfo',body),err=$('#pwErr',body);
+  let file=null;
+  wireDropZone($('#pwFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{file=f;const b=await f.arrayBuffer();const d=await PDFLib.PDFDocument.load(b);info.textContent=`${f.name} · ${d.getPageCount()} pages`;p.classList.remove('hidden');}
+    catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+  op.addEventListener('input',()=>{opv.textContent=op.value;});
+  go.onclick=async()=>{
+    if(!file)return;
+    go.disabled=true;go.classList.add('loading');
+    status.className='out';status.textContent='Adding watermark…';status.classList.remove('hidden');
+    try{
+      const {PDFDocument,rgb,StandardFonts,degrees}=PDFLib;
+      const b=await file.arrayBuffer();const d=await PDFDocument.load(b);
+      const font=await d.embedFont(StandardFonts.HelveticaBold);
+      const text=txt.value||'WATERMARK';
+      const sz=+size.value;const alpha=+op.value/100;
+      d.getPages().forEach(pg=>{
+        const {width,height}=pg.getSize();
+        const tw=font.widthOfTextAtSize(text,sz);
+        pg.drawText(text,{
+          x:(width-tw)/2-Math.cos(Math.PI/4)*height/3,
+          y:height/2-Math.sin(Math.PI/4)*width/3,
+          size:sz,font,color:rgb(0.8,0.1,0.2),opacity:alpha,rotate:degrees(45)
+        });
+      });
+      const data=await d.save();const blob=new Blob([data],{type:'application/pdf'});
+      downloadBlob(blob,file.name.replace(/\.pdf$/i,'')+'-watermarked.pdf');
+      status.className='out success';status.textContent=`✓ Watermark added · ${formatBytes(blob.size)}`;showToast('Watermarked');
+    }catch(e){status.className='out error';status.textContent='⚠️ '+e.message;}
+    finally{go.disabled=false;go.classList.remove('loading');}
+  };
+}
+
+function renderPdfInfo(body){
+  body.innerHTML=`
+    ${dropZoneHTML('pfFile','application/pdf',false,'Drop a PDF here','Show metadata & page info')}
+    <div id="pfPanel" class="hidden"><div class="out" id="pfOut"></div></div>
+    <div class="out hidden" id="pfErr"></div>`;
+  const p=$('#pfPanel',body),out=$('#pfOut',body),err=$('#pfErr',body);
+  wireDropZone($('#pfFile',body),async([f])=>{
+    err.classList.add('hidden');
+    try{
+      const b=await f.arrayBuffer();const d=await PDFLib.PDFDocument.load(b);
+      const pages=d.getPages();
+      const dims=pages.slice(0,5).map((pg,i)=>{const s=pg.getSize();return `  Page ${i+1}: ${Math.round(s.width)} × ${Math.round(s.height)}`;}).join('\n');
+      out.textContent=`File name    : ${f.name}\nFile size    : ${formatBytes(f.size)}\nPage count   : ${d.getPageCount()}\nTitle        : ${d.getTitle()||'—'}\nAuthor       : ${d.getAuthor()||'—'}\nCreator      : ${d.getCreator()||'—'}\nProducer     : ${d.getProducer()||'—'}\n\nFirst pages:\n${dims}`;
+      p.classList.remove('hidden');
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+}
+
+/* ============ UTILITY TOOLS ============ */
+function renderQrGen(body){
+  body.innerHTML=`
+    <div class="field"><label>Text or URL</label>
+      <textarea id="qrText" rows="3">https://example.com</textarea></div>
+    <div class="row">
+      <div style="flex:1;min-width:130px"><label>Size</label>
+        <select id="qrSize"><option value="200">200</option><option value="300" selected>300</option><option value="400">400</option></select></div>
+      <button class="btn" id="qrMake" style="margin-top:20px">Generate</button>
+      <button class="btn ghost" id="qrDl" style="margin-top:20px">${ICONS.download} Download</button>
+    </div>
+    <div id="qrWrap" style="margin-top:18px;display:flex;justify-content:center;background:#fff;padding:20px;border-radius:14px"></div>
+    <div class="out hidden" id="qrErr"></div>`;
+  const wrap=$('#qrWrap',body),err=$('#qrErr',body);
+  function gen(){
+    if(typeof QRCode==='undefined'){err.className='out error';err.textContent='⚠️ QR library not loaded.';err.classList.remove('hidden');return;}
+    err.classList.add('hidden');wrap.innerHTML='';
+    const s=+$('#qrSize',body).value;
+    new QRCode(wrap,{text:$('#qrText',body).value||' ',width:s,height:s,colorDark:'#1e1b4b',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+  }
+  $('#qrMake',body).onclick=gen;
+  $('#qrDl',body).onclick=()=>{
+    const c=wrap.querySelector('canvas');const i=wrap.querySelector('img');
+    if(c){c.toBlob(b=>{downloadBlob(b,'qr.png');showToast('Downloaded');},'image/png');}
+    else if(i){fetch(i.src).then(r=>r.blob()).then(b=>downloadBlob(b,'qr.png'));}
+  };
+  gen();
+}
+
+function renderQrScan(body){
+  body.innerHTML=`
+    ${dropZoneHTML('qsFile','image/*',false,'Drop a QR code image','PNG, JPG, WebP')}
+    <div id="qsPanel" class="hidden">
+      <div class="preview-wrap" id="qsPreview"></div>
+      <div class="out" id="qsResult">Scanning…</div>
+    </div>
+    <div class="out hidden" id="qsErr"></div>`;
+  const p=$('#qsPanel',body),prev=$('#qsPreview',body),result=$('#qsResult',body),err=$('#qsErr',body);
+  wireDropZone($('#qsFile',body),async([f])=>{
+    err.classList.add('hidden');
+    if(typeof jsQR==='undefined'){err.className='out error';err.textContent='⚠️ QR scanning library not loaded.';err.classList.remove('hidden');return;}
+    try{
+      const img=await loadImage(f);
+      const c=document.createElement('canvas');
+      const sc=Math.min(1,800/img.naturalWidth);
+      c.width=Math.round(img.naturalWidth*sc);c.height=Math.round(img.naturalHeight*sc);
+      const ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);
+      prev.innerHTML='';prev.appendChild(c);
+      const data=ctx.getImageData(0,0,c.width,c.height);
+      const code=jsQR(data.data,data.width,data.height);
+      p.classList.remove('hidden');
+      if(code&&code.data){result.className='out success';result.textContent='✓ '+code.data;showToast('QR detected');}
+      else{result.className='out error';result.textContent='⚠️ No QR detected.';}
+    }catch(e){err.className='out error';err.textContent='⚠️ '+e.message;err.classList.remove('hidden');}
+  });
+}
+
+function renderCaseConvert(body){
+  body.innerHTML=`
+    <div class="field"><label>Input</label><textarea id="ccIn" rows="5"></textarea></div>
+    <div class="row" style="margin-top:0">
+      <button class="btn" data-case="upper">UPPER</button>
+      <button class="btn" data-case="lower">lower</button>
+      <button class="btn" data-case="title">Title Case</button>
+      <button class="btn" data-case="sentence">Sentence</button>
+      <button class="btn" data-case="camel">camelCase</button>
+      <button class="btn" data-case="snake">snake_case</button>
+      <button class="btn" data-case="kebab">kebab-case</button>
+    </div>
+    <div class="out" id="ccOut" style="min-height:60px">—</div>
+    <div class="row"><button class="btn ghost" id="ccCopy">Copy</button></div>`;
+  const inp=$('#ccIn',body),out=$('#ccOut',body);
+  const words=s=>s.trim().split(/\s+/).filter(Boolean);
+  const conv=(t,s)=>{
+    if(t==='upper')return s.toUpperCase();
+    if(t==='lower')return s.toLowerCase();
+    if(t==='title')return s.replace(/\w\S*/g,w=>w[0].toUpperCase()+w.slice(1).toLowerCase());
+    if(t==='sentence')return s.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase());
+    if(t==='camel')return words(s).map((w,i)=>i?w[0].toUpperCase()+w.slice(1).toLowerCase():w.toLowerCase()).join('');
+    if(t==='snake')return words(s).map(w=>w.toLowerCase()).join('_');
+    if(t==='kebab')return words(s).map(w=>w.toLowerCase()).join('-');
+    return s;
+  };
+  body.querySelectorAll('[data-case]').forEach(b=>b.addEventListener('click',()=>{out.textContent=conv(b.dataset.case,inp.value)||'—';}));
+  $('#ccCopy',body).onclick=e=>copyText(out.textContent,e.target);
+}
+
+function renderPassword(body){
+  body.innerHTML=`
+    <div class="field"><label>Length: <b id="pwLenVal">16</b></label>
+      <input type="range" id="pwLen" min="4" max="64" value="16" style="width:100%"></div>
+    <div class="row" style="margin-top:0">
+      <label><input type="checkbox" id="pwLower" checked> a-z</label>
+      <label><input type="checkbox" id="pwUpper" checked> A-Z</label>
+      <label><input type="checkbox" id="pwDigit" checked> 0-9</label>
+      <label><input type="checkbox" id="pwSym" checked> Symbols</label>
+    </div>
+    <div class="row"><button class="btn" id="pwGen">Generate</button>
+      <button class="btn ghost" id="pwCopy">Copy</button></div>
+    <div class="out" id="pwOut" style="font-size:1rem"></div>
+    <div class="file-info" id="pwStrength"></div>`;
+  const out=$('#pwOut',body),meter=$('#pwStrength',body);
+  const sets={lower:'abcdefghijkmnopqrstuvwxyz',upper:'ABCDEFGHJKLMNPQRSTUVWXYZ',digit:'23456789',sym:'!@#$%^&*()-_=+[]{};:,.?/'};
+  const gen=()=>{
+    const len=+$('#pwLen',body).value;let pool='';
+    if($('#pwLower',body).checked)pool+=sets.lower;
+    if($('#pwUpper',body).checked)pool+=sets.upper;
+    if($('#pwDigit',body).checked)pool+=sets.digit;
+    if($('#pwSym',body).checked)pool+=sets.sym;
+    if(!pool){out.textContent='Select at least one set.';meter.textContent='';return;}
+    let pw='';for(let i=0;i<len;i++)pw+=pool[randInt(pool.length)];
+    out.textContent=pw;
+    const st=len>=16&&pool.length>70?'Strong 💪':len>=12?'Good 👍':'Weak ⚠️';
+    meter.textContent=`Strength: ${st} · ${len} chars`;
+  };
+  $('#pwLen',body).addEventListener('input',e=>$('#pwLenVal',body).textContent=e.target.value);
+  $('#pwGen',body).onclick=gen;
+  $('#pwCopy',body).onclick=e=>copyText(out.textContent,e.target);
+  gen();
+}
+
+function renderHash(body){
+  body.innerHTML=`
+    <div class="field"><label>Text</label><textarea id="hsText" rows="4"></textarea></div>
+    <div class="row" style="margin-top:0">
+      <div style="flex:1;min-width:150px"><label>Algorithm</label>
+        <select id="hsAlg"><option value="SHA-256" selected>SHA-256</option><option value="SHA-384">SHA-384</option><option value="SHA-512">SHA-512</option><option value="SHA-1">SHA-1</option></select></div>
+    </div>
+    <div class="out" id="hsOut" style="min-height:60px">—</div>
+    <div class="row"><button class="btn ghost" id="hsCopy">Copy</button></div>`;
+  const inp=$('#hsText',body),alg=$('#hsAlg',body),out=$('#hsOut',body);
+  const compute=debounce(async()=>{
+    const t=inp.value;if(!t){out.textContent='—';return;}
+    if(!crypto.subtle){out.className='out error';out.textContent='⚠️ Web Crypto unavailable.';return;}
+    try{
+      const buf=await crypto.subtle.digest(alg.value,new TextEncoder().encode(t));
+      const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+      out.className='out';out.textContent=`${alg.value}:\n${hex}`;
+    }catch(e){out.className='out error';out.textContent='⚠️ '+e.message;}
+  },180);
+  inp.addEventListener('input',compute);alg.addEventListener('change',compute);
+  $('#hsCopy',body).onclick=e=>copyText(out.textContent.split('\n').slice(1).join('\n'),e.target);
+}
+
+function renderColorConvert(body){
+  body.innerHTML=`
+    <div class="row" style="margin-top:0;align-items:flex-start">
+      <input type="color" id="cvPick" value="#a855f7" style="width:76px;height:76px;flex:0 0 auto">
+      <div style="flex:1;min-width:180px"><label>HEX</label><input type="text" id="cvHex" value="#a855f7"></div>
+    </div>
+    <div class="out" id="cvOut"></div>
+    <div class="row">
+      <button class="btn ghost" id="cvCH">Copy HEX</button>
+      <button class="btn ghost" id="cvCR">Copy RGB</button>
+      <button class="btn ghost" id="cvCL">Copy HSL</button>
+    </div>`;
+  const pick=$('#cvPick',body),hexI=$('#cvHex',body),out=$('#cvOut',body);
+  let cur={hex:'#a855f7',rgb:'',hsl:''};
+  const h2r=h=>{h=h.trim().replace(/^#/,'');if(h.length===3)h=h.split('').map(c=>c+c).join('');if(!/^[0-9a-f]{6}$/i.test(h))return null;return{r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)};};
+  const r2h=({r,g,b})=>{r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0;const l=(mx+mn)/2;if(mx!==mn){const d=mx-mn;s=l>0.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?((b-r)/d+2):((r-g)/d+4);h*=60;}return{h:Math.round(h),s:Math.round(s*100),l:Math.round(l*100)};};
+  const upd=src=>{
+    const hex=src==='p'?pick.value:hexI.value;const rgb=h2r(hex);
+    if(!rgb){out.textContent='Enter valid HEX';return;}
+    if(src==='p')hexI.value=hex;else pick.value='#'+hex.replace(/^#/,'').padEnd(6,'0').slice(0,6);
+    const hsl=r2h(rgb);const hx='#'+hex.replace(/^#/,'').toLowerCase();
+    cur={hex:hx,rgb:`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`,hsl:`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`};
+    out.textContent=`HEX  ${cur.hex}\nRGB  ${cur.rgb}\nHSL  ${cur.hsl}`;
+  };
+  pick.addEventListener('input',()=>upd('p'));hexI.addEventListener('input',()=>upd('t'));
+  $('#cvCH',body).onclick=e=>copyText(cur.hex,e.target);
+  $('#cvCR',body).onclick=e=>copyText(cur.rgb,e.target);
+  $('#cvCL',body).onclick=e=>copyText(cur.hsl,e.target);
+  upd('p');
+}
+
+function renderWords(body){
+  body.innerHTML=`
+    <div class="field"><label>Text</label>
+      <textarea id="wdIn" rows="8" placeholder="Paste or type text…"></textarea></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:14px">
+      ${['Words','Characters','No spaces','Sentences','Paragraphs','Read time'].map((l,i)=>`
+        <div style="background:var(--glass-2);border:1px solid var(--glass-border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s var(--ease)">
+          <div id="wd${i}" style="font-size:1.35rem;font-weight:800;color:var(--purple-soft);transition:transform .2s var(--spring)">0</div>
+          <div style="font-size:.72rem;color:var(--text-muted);font-weight:600">${l}</div>
+        </div>`).join('')}
+    </div>`;
+  const ta=$('#wdIn',body);
+  const bump=(id,val)=>{
+    const el=$('#'+id,body);
+    if(el.textContent!==String(val)){
+      el.textContent=val;
+      el.style.transform='scale(1.15)';
+      setTimeout(()=>el.style.transform='scale(1)',150);
+    }
+  };
+  const upd=()=>{
+    const t=ta.value;
+    const words=t.trim()?t.trim().split(/\s+/).length:0;
+    bump('wd0',words);
+    bump('wd1',t.length);
+    bump('wd2',t.replace(/\s/g,'').length);
+    bump('wd3',(t.match(/[^.!?]+[.!?]+/g)||[]).length);
+    bump('wd4',t.trim()?t.trim().split(/\n\s*\n/).length:0);
+    const m=words/200;bump('wd5',m<1?Math.round(m*60)+'s':m.toFixed(1)+'m');
+  };
+  ta.addEventListener('input',upd);upd();
+}
+
+function renderReverse(body){
+  body.innerHTML=`
+    <div class="field"><label>Input</label><textarea id="rvIn" rows="6"></textarea></div>
+    <div class="row" style="margin-top:0">
+      <button class="btn" data-mode="chars">Reverse chars</button>
+      <button class="btn" data-mode="words">Reverse words</button>
+      <button class="btn" data-mode="lines">Reverse lines</button>
+    </div>
+    <div class="out" id="rvOut" style="min-height:60px">—</div>
+    <div class="row"><button class="btn ghost" id="rvCopy">Copy</button></div>`;
+  const inp=$('#rvIn',body),out=$('#rvOut',body);
+  const map={
+    chars:s=>[...s].reverse().join(''),
+    words:s=>s.split(/\s+/).reverse().join(' '),
+    lines:s=>s.split('\n').reverse().join('\n')
+  };
+  body.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{
+    out.textContent=inp.value?map[b.dataset.mode](inp.value):'—';
+  }));
+  $('#rvCopy',body).onclick=e=>copyText(out.textContent,e.target);
+}
+
+function renderUrlCodec(body){
+  body.innerHTML=`
+    <div class="field"><label>Input</label><textarea id="ucIn" rows="5"></textarea></div>
+    <div class="row" style="margin-top:0">
+      <button class="btn" id="ucEnc">Encode →</button>
+      <button class="btn ghost" id="ucDec">← Decode</button>
+    </div>
+    <div class="out" id="ucOut" style="min-height:60px">—</div>
+    <div class="row"><button class="btn ghost" id="ucCopy">Copy</button></div>`;
+  const inp=$('#ucIn',body),out=$('#ucOut',body);
+  $('#ucEnc',body).onclick=()=>{try{out.textContent=encodeURIComponent(inp.value)||'—';}catch(e){out.textContent='⚠️ '+e.message;}};
+  $('#ucDec',body).onclick=()=>{try{out.textContent=decodeURIComponent(inp.value)||'—';}catch(e){out.textContent='⚠️ Invalid encoding';}};
+  $('#ucCopy',body).onclick=e=>copyText(out.textContent,e.target);
+}
+
+function renderB64Text(body){
+  body.innerHTML=`
+    <div class="field"><label>Input</label><textarea id="btIn" rows="5"></textarea></div>
+    <div class="row" style="margin-top:0">
+      <button class="btn" id="btEnc">Encode →</button>
+      <button class="btn ghost" id="btDec">← Decode</button>
+    </div>
+    <div class="out" id="btOut" style="min-height:60px">—</div>
+    <div class="row"><button class="btn ghost" id="btCopy">Copy</button></div>`;
+  const inp=$('#btIn',body),out=$('#btOut',body);
+  const enc=s=>btoa(unescape(encodeURIComponent(s)));
+  const dec=s=>decodeURIComponent(escape(atob(s.trim())));
+  $('#btEnc',body).onclick=()=>{try{out.textContent=enc(inp.value)||'—';}catch(e){out.textContent='⚠️ '+e.message;}};
+  $('#btDec',body).onclick=()=>{try{out.textContent=dec(inp.value)||'—';}catch(e){out.textContent='⚠️ Invalid Base64';}};
+  $('#btCopy',body).onclick=e=>copyText(out.textContent,e.target);
+}
+
+function renderDiff(body){
+  body.innerHTML=`
+    <div class="row" style="margin-top:0;align-items:flex-start">
+      <div style="flex:1;min-width:200px"><label>Text A</label><textarea id="dfA" rows="6"></textarea></div>
+      <div style="flex:1;min-width:200px"><label>Text B</label><textarea id="dfB" rows="6"></textarea></div>
+    </div>
+    <div class="row"><button class="btn" id="dfGo">Compare</button></div>
+    <div class="out" id="dfOut" style="min-height:60px">—</div>`;
+  const a=$('#dfA',body),b=$('#dfB',body),out=$('#dfOut',body);
+  $('#dfGo',body).onclick=()=>{
+    const la=a.value.split('\n'),lb=b.value.split('\n');
+    const max=Math.max(la.length,lb.length);
+    let same=0,diff=0;let result='';
+    for(let i=0;i<max;i++){
+      const A=la[i]??'',B=lb[i]??'';
+      if(A===B){same++;result+=`  ${A}\n`;}
+      else{diff++;result+=`- ${A}\n+ ${B}\n`;}
+    }
+    out.textContent=`${same} identical, ${diff} different\n\n${result}`;
+  };
+}
+
+function renderLorem(body){
+  const pool=[
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.'
+  ];
+  body.innerHTML=`
+    <div class="row" style="margin-top:0">
+      <div style="flex:0 0 130px"><label>Paragraphs</label>
+        <input type="number" id="loN" value="3" min="1" max="20"></div>
+      <button class="btn" id="loGen" style="margin-top:20px">Generate</button>
+      <button class="btn ghost" id="loCopy" style="margin-top:20px">Copy</button>
+    </div>
+    <div class="out" id="loOut" style="font-family:inherit;min-height:80px"></div>`;
+  const out=$('#loOut',body);
+  const gen=()=>{
+    const n=Math.max(1,Math.min(20,+$('#loN',body).value||1));
+    out.textContent=Array.from({length:n},()=>pool[randInt(pool.length)]).join('\n\n');
+  };
+  $('#loGen',body).onclick=gen;$('#loCopy',body).onclick=e=>copyText(out.textContent,e.target);
+  gen();
+}
+
+function renderRng(body){
+  body.innerHTML=`
+    <div class="row" style="margin-top:0">
+      <div style="flex:1;min-width:110px"><label>Min</label><input type="number" id="rgMin" value="1"></div>
+      <div style="flex:1;min-width:110px"><label>Max</label><input type="number" id="rgMax" value="100"></div>
+      <div style="flex:1;min-width:110px"><label>Count</label><input type="number" id="rgN" value="5" min="1" max="100"></div>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="rgU"> Unique</label>
+      <button class="btn" id="rgGo" style="margin-left:auto">Generate</button>
+      <button class="btn ghost" id="rgCopy">Copy</button>
+    </div>
+    <div class="out" id="rgOut"></div>`;
+  const out=$('#rgOut',body);
+  const gen=()=>{
+    let mn=Math.ceil(+$('#rgMin',body).value||0),mx=Math.floor(+$('#rgMax',body).value||0);
+    let n=Math.max(1,Math.min(100,+$('#rgN',body).value||1));
+    if(mx<mn)[mn,mx]=[mx,mn];
+    const range=mx-mn+1;const uniq=$('#rgU',body).checked;
+    if(uniq&&n>range){out.textContent=`⚠️ Can't pick ${n} unique from range ${range}.`;return;}
+    const nums=[];
+    if(uniq){const pool=Array.from({length:range},(_,i)=>mn+i);for(let i=0;i<n;i++)nums.push(pool.splice(randInt(pool.length),1)[0]);}
+    else{for(let i=0;i<n;i++)nums.push(mn+randInt(range));}
+    out.textContent=nums.join(', ');
+  };
+  $('#rgGo',body).onclick=gen;$('#rgCopy',body).onclick=e=>copyText(out.textContent,e.target);
+  gen();
+}
+
+function renderDice(body){
+  body.innerHTML=`
+    <div class="row" style="margin-top:0">
+      ${[4,6,8,10,12,20].map(s=>`<button class="btn ghost" data-dice="${s}">d${s}</button>`).join('')}
+      <button class="btn red" id="dcCoin">🪙 Flip coin</button>
+    </div>
+    <div class="out" id="dcOut" style="text-align:center;font-size:1.5rem;font-weight:800;min-height:80px;display:flex;align-items:center;justify-content:center">Click a button</div>`;
+  const out=$('#dcOut',body);
+  body.querySelectorAll('[data-dice]').forEach(b=>b.addEventListener('click',()=>{
+    const s=+b.dataset.dice;const r=randInt(s)+1;
+    out.style.transform='scale(1.2) rotate(10deg)';
+    setTimeout(()=>{out.style.transform='';out.textContent=`🎲 d${s} → ${r}`;},150);
+  }));
+  $('#dcCoin',body).onclick=()=>{
+    out.style.transform='rotateY(180deg)';
+    setTimeout(()=>{out.style.transform='';out.textContent=randInt(2)?'🪙 Heads':'🪙 Tails';},250);
+  };
+}
+
+function renderStopwatch(body){
+  body.innerHTML=`
+    <div class="out" id="swTime" style="text-align:center;font-size:2.4rem;font-weight:800;font-family:monospace;letter-spacing:.04em;min-height:80px;display:flex;align-items:center;justify-content:center">00:00.00</div>
+    <div class="row" style="justify-content:center">
+      <button class="btn" id="swStart">Start</button>
+      <button class="btn ghost" id="swLap">Lap</button>
+      <button class="btn red" id="swReset">Reset</button>
+    </div>
+    <div class="out" id="swLaps" style="min-height:60px;max-height:200px;overflow-y:auto"></div>`;
+  const time=$('#swTime',body),laps=$('#swLaps',body);
+  let start=0,elapsed=0,running=false,raf=null,lapsArr=[];
+  const fmt=ms=>{
+    const m=Math.floor(ms/60000),s=Math.floor(ms%60000/1000),cs=Math.floor(ms%1000/10);
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(cs).padStart(2,'0')}`;
+  };
+  const tick=()=>{
+    if(!running)return;
+    time.textContent=fmt(elapsed+performance.now()-start);
+    raf=requestAnimationFrame(tick);
+  };
+  const updLaps=()=>{laps.textContent=lapsArr.map((l,i)=>`Lap ${i+1}: ${fmt(l)}`).join('\n')||'';};
+  $('#swStart',body).onclick=e=>{
+    if(running){elapsed+=performance.now()-start;running=false;cancelAnimationFrame(raf);e.target.textContent='Start';}
+    else{start=performance.now();running=true;raf=requestAnimationFrame(tick);e.target.textContent='Stop';}
+  };
+  $('#swLap',body).onclick=()=>{if(running){lapsArr.push(elapsed+performance.now()-start);updLaps();}};
+  $('#swReset',body).onclick=()=>{
+    running=false;cancelAnimationFrame(raf);elapsed=0;lapsArr=[];
+    time.textContent='00:00.00';laps.textContent='';$('#swStart',body).textContent='Start';
+  };
+}
+
+function renderBmi(body){
+  body.innerHTML=`
+    <div class="row" style="margin-top:0">
+      <div style="flex:1;min-width:130px"><label>Height (cm)</label>
+        <input type="number" id="bmH" value="175" min="1"></div>
+      <div style="flex:1;min-width:130px"><label>Weight (kg)</label>
+        <input type="number" id="bmW" value="70" min="1"></div>
+    </div>
+    <div class="out" id="bmOut" style="text-align:center;font-size:1.3rem;font-weight:800;min-height:80px;display:flex;align-items:center;justify-content:center"></div>`;
+  const out=$('#bmOut',body);
+  const calc=()=>{
+    const h=+$('#bmH',body).value/100,w=+$('#bmW',body).value;
+    if(!h||!w){out.textContent='Enter height & weight';return;}
+    const bmi=w/(h*h);
+    let cat,color;
+    if(bmi<18.5){cat='Underweight';color='#3b82f6';}
+    else if(bmi<25){cat='Normal ✓';color='#10b981';}
+    else if(bmi<30){cat='Overweight';color='#f59e0b';}
+    else{cat='Obese';color='#ef4444';}
+    out.innerHTML=`<span style="color:${color};font-size:1.6rem">BMI ${bmi.toFixed(1)}</span><br><span style="font-size:.95rem;color:var(--text-muted);font-weight:600">${cat}</span>`;
+    out.style.transform='scale(1.05)';
+    setTimeout(()=>out.style.transform='scale(1)',200);
+  };
+  ['#bmH','#bmW'].forEach(s=>$(s,body).addEventListener('input',calc));
+  calc();
+}
+
+function renderTip(body){
+  body.innerHTML=`
+    <div class="row" style="margin-top:0">
+      <div style="flex:1;min-width:130px"><label>Bill amount</label>
+        <input type="number" id="tpBill" value="50" min="0" step="0.01"></div>
+      <div style="flex:1;min-width:130px"><label>Tip %</label>
+        <select id="tpPct"><option value="10">10%</option><option value="15" selected>15%</option><option value="18">18%</option><option value="20">20%</option><option value="25">25%</option></select></div>
+      <div style="flex:1;min-width:130px"><label>Split between</label>
+        <input type="number" id="tpN" value="1" min="1" max="50"></div>
+    </div>
+    <div class="out" id="tpOut" style="min-height:80px;font-family:inherit;font-size:1rem"></div>`;
+  const out=$('#tpOut',body);
+  const calc=()=>{
+    const bill=+$('#tpBill',body).value||0;
+    const pct=+$('#tpPct',body).value||0;
+    const n=Math.max(1,+$('#tpN',body).value||1);
+    const tip=bill*pct/100,total=bill+tip,per=total/n;
+    out.innerHTML=`Tip: <strong>$${tip.toFixed(2)}</strong><br>Total: <strong>$${total.toFixed(2)}</strong><br>Each pays: <strong style="color:var(--purple-soft)">$${per.toFixed(2)}</strong>`;
+  };
+  ['#tpBill','#tpPct','#tpN'].forEach(s=>$(s,body).addEventListener('input',calc));
+  calc();
+}
+
+/* ============ INIT ============ */
+try{setupTheme();}catch{}
+buildGrid();
+onScroll();
+</script>
+</body>
+</html>
